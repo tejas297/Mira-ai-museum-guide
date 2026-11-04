@@ -1,5 +1,5 @@
 app = "mira-ai-museum-guide"
-primary_region = "bom"
+primary_region = "sin"
 
 [build]
   dockerfile = "Dockerfile"
