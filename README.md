@@ -4,16 +4,18 @@
 
 Mira is a voice-first AI museum guide. BLE beacons tell the app which artifact you are standing in front of; Meta Muse — grounded in the curator's own records — greets you, answers your questions, remembers your tour, and speaks back like a human guide. No typing. No reading labels. Built solo for the **Meta AI Global Hackathon (Indie Developer track)**.
 
+`Android 8+` · `English + हिंदी` · `Muse Spark 1.3` · `Simulated + real BLE beacons` · `Voice in, voice out`
+
 ## Try it in 2 minutes
 
 - **Download the app:** [Mira v1.0 APK — Google Drive](https://drive.google.com/file/d/1A4yj5GN1hEyEOCzmC36WrrS1CaFun3x3/view?usp=drivesdk) · [GitHub mirror](https://github.com/tejas297/Mira-ai-museum-guide/raw/main/app-release.apk) (Android, 40 MB) — allow "install unknown apps", install, grant the microphone permission.
 - **Demo video:** coming soon <!-- TODO: paste the demo video URL here -->
-- **Live backend:** [mira-ai-museum-guide.fly.dev](https://mira-ai-museum-guide.fly.dev/health) · **Curator admin:** [/admin](https://mira-ai-museum-guide.fly.dev/admin)
+- **Live backend:** [health check](https://mira-ai-museum-guide.fly.dev/health) · **Curator admin:** [/admin](https://mira-ai-museum-guide.fly.dev/admin) (login required — it is shown in the demo video)
 
 **What to try in the app**
 
-1. You land at *Sita Bhoomi Pravesh* (Simulated beacons need no hardware). Mira greets you out loud.
-2. Tap **Ask Mira**, or turn on the **“Hey Mira”** chip above the mic and just speak. Interrupt her mid-sentence — she stops and listens.
+1. First launch only: pick a language, tap **Start exploring**, then **Skip** the interests popup (or save some). You land at *Sita Bhoomi Pravesh* — Simulated beacons need no hardware — and Mira greets you out loud.
+2. Tap **Ask Mira**, or turn on the **“Hey Mira”** chip above the mic and just speak (first use downloads a small offline voice model, ~40 MB). Interrupt her mid-sentence — she stops and listens.
 3. Ask a follow-up. Then tap the **globe** (top right) and ask in **हिंदी**.
 4. Switch beacons to **Real** and advertise an iBeacon (nRF Connect, major 1 / minor 12, 15, 18, 19 or 21) from a second phone — the stop flips as you walk.
 5. Tap the **chat icon** if you ever want the transcript. You should not need it.
@@ -58,7 +60,7 @@ Mira is deliberately the union of the two paid options: the **conversation of a 
 
 ### Impact (30%)
 
-Mira turns every phone into a patient, multilingual guide that never sleeps. The beneficiaries are named above; the buyers are museums, palaces, and galleries that could never staff this. It is a license-able product, not a demo trick: curators configure their own collection in the admin, and the analytics loop (top questions per artifact, dwell time) tells them what to improve. It was designed voice-first precisely so that reading is never the price of entry.
+Mira turns every phone into a patient, multilingual guide that never sleeps. The beneficiaries are named above; the buyers are museums, palaces, and galleries that could never staff this. It is a license-able product, not a demo trick: a venue needs one inexpensive BLE beacon per artifact and a curator with a browser — no app-store release of their own, no hardware fleet, no printed re-runs when text changes. The analytics loop (top questions per artifact, dwell time) then tells them what to improve. It was designed voice-first precisely so that reading is never the price of entry.
 
 ### Use of Meta AI Tooling (25%)
 
@@ -66,18 +68,21 @@ Muse Spark 1.3 is not a chatbot endpoint here — it does four jobs: **greeting,
 
 ### Technical Depth & Execution (20%)
 
-Native Kotlin Android: dual beacon engines (mock + real iBeacon) behind one `BeaconScanner`, nearest-stop resolver with debounce, RSSI smoothing with stable ordering, three beacon views (List / Cards / Radar), reusable speech recognizer with voice-level feedback, generation-guarded barge-in, haptics, and a full state machine for the mic (Ask / Listening / Thinking / Tap-to-interrupt). FastAPI + SQLite backend with SSE streaming, identity short-circuit, hardened offline fallback, admin CRUD + analytics, unit tests (`app/src/test`, `server/test_main.py`), and a Docker + Fly.io deployment with a persistent volume. The [feature-by-feature evidence log](docs/05-features-e2e.md) records what was verified, where, and how.
+**Android (native Kotlin):** dual beacon engines (mock + real iBeacon) behind one `BeaconScanner`, nearest-stop resolver with debounce, RSSI smoothing with stable ordering, three beacon views (List / Cards / Radar), reusable speech recognizer with voice-level feedback, generation-guarded barge-in, haptics, and a full mic state machine (Ask / Listening / Thinking / Tap-to-interrupt).
+
+**Backend (FastAPI + SQLite):** SSE streaming, identity short-circuit, hardened offline fallback, admin CRUD + analytics, unit tests (`app/src/test`, `server/test_main.py`), and a Docker + Fly.io deployment with a persistent volume. The [feature-by-feature evidence log](docs/05-features-e2e.md) records what was verified, where, and how.
 
 ### Demo (25%)
 
-It is live, not staged: the backend runs publicly on Fly.io, and the APK above talks to it with no cable, no local server, no setup. Everything in the app works on a judge's own phone in Simulated mode; the real-beacon path needs only a second phone running nRF Connect. The demo video (link above) walks the full arc — greeting, interruption, follow-up, Hindi, real-beacon flip, admin edit changing the next answer, analytics — in 3 minutes.
+It is live, not staged: the backend runs publicly on Fly.io, and the APK above talks to it with no cable, no local server, no setup. Everything in the app works on a judge's own phone in Simulated mode; the real-beacon path needs only a second phone running nRF Connect. The 3-minute demo video (linked at the top) walks the full arc — greeting, interruption, follow-up, Hindi, real-beacon flip, admin edit changing the next answer, analytics.
 
 ## Run it yourself
 
 Backend (local):
 
 ```bash
-source .venv/bin/activate
+python -m venv .venv && source .venv/bin/activate
+pip install -r server/requirements.txt
 cp server/.env.example server/.env   # MODEL_API_KEY + ADMIN_PASSWORD
 cd server && python -m uvicorn main:app --host 0.0.0.0 --port 8000
 ```
@@ -94,5 +99,6 @@ First boot seeds 5 artifacts (Raja Ravi Varma paintings, bronze sculpture, Chine
 | `diagrams/` | Architecture diagram (HTML + light/dark PNG) |
 | `docs/` | [PRD](docs/01-PRD.md) · [Architecture](docs/02-architecture.md) · [Data & API](docs/03-data-model-api.md) · [Plan](docs/04-hackathon-plan.md) · [Features & evidence](docs/05-features-e2e.md) |
 | `app-release.apk` | The judge build (v1.0, signed) |
+| `Dockerfile` · `fly.toml` | Production deployment (Fly.io, persistent volume) |
 
 *Mira was designed, built, and verified solo in a 16-hour sprint — every feature above was exercised on a physical phone, and the answers you will hear come from live Muse, grounded in records a curator typed.*
