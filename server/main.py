@@ -38,7 +38,7 @@ MODEL_API_KEY = os.environ.get("MODEL_API_KEY", "")
 ADMIN_PASSWORD = os.environ.get("ADMIN_PASSWORD", "changeme")
 ADMIN_TOKEN = hashlib.sha256(f"{ADMIN_PASSWORD}:mira".encode()).hexdigest()
 
-DB_PATH = BASE / "mira.db"
+DB_PATH = Path(os.environ.get("MIRA_DB_PATH", BASE / "mira.db"))
 
 def _db() -> sqlite3.Connection:
     conn = sqlite3.connect(DB_PATH)
@@ -46,6 +46,7 @@ def _db() -> sqlite3.Connection:
     return conn
 
 def _init_db() -> None:
+    DB_PATH.parent.mkdir(parents=True, exist_ok=True)
     with _db() as conn:
         conn.execute(
             """CREATE TABLE IF NOT EXISTS artifacts (

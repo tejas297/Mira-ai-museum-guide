@@ -1,0 +1,11 @@
+app/
+docs/
+diagrams/
+.git
+.venv
+server/.env
+server/__pycache__
+server/mira.db
+*.png
+.gradle
+local.properties
