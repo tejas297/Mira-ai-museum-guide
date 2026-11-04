@@ -62,11 +62,14 @@ class MockBeaconScanner implements BeaconScanner { ... }  // P0
 
 ```
 Path A (mic):  tap mic → STT (SpeechRecognizer, VAD 1.2s / max 30s) → Muse → TTS → play
-Path B (hotword): Porcupine "Hey {Name}" → chime → auto-STT → Muse → TTS → play
+Path B (hotword): Porcupine "Hey Mira" → chime → auto-STT → Muse → TTS → play
                                           ↑ live transcript      ↑ text + speech + hook
 ```
 
-- Hotword engine (16h pick): **Picovoice Porcupine Android SDK** — on-device, sample app runs in ~30 min, custom wake word via console. Needs free `PORCUPINE_ACCESS_KEY`. Fallback if key/signup fails: OpenWakeWord TFLite, last resort: looping SpeechRecognizer (flaky, keep mic as backup).
+- Hotword engine — try in this order:
+  1. **Porcupine via OAuth signup (5-min try):** the email form asks for a company address, but Picovoice supports Google/GitHub/LinkedIn signup with a personal email for non-commercial use. If that works, train "Hey Mira" in console, download `.ppn`, use the Android SDK with free `PORCUPINE_ACCESS_KEY`.
+  2. **Vosk keyword spotting (no-signup fallback, Apache 2.0):** `vosk-android` AAR from Maven + small English model (~40MB, bundled or downloaded on first run). Run continuously in a foreground service with a constrained grammar `["hey mira"]`, ~30MB RAM, fully offline. Accuracy is lower than Porcupine, so demo in a quiet room and keep the mic button as backup.
+  3. Last resort: mic-button-only. A working mic beats a broken hotword.
 - STT: Android `SpeechRecognizer` (free, English, offline pack available). No cloud STT in 16h.
 - TTS: Android `TextToSpeech` + Google TTS neural voice (en-IN or en-US). SSML-ish control via prompt-shaped punctuation + `setSpeechRate(0.95)` + utterance pauses. Cache per FAQ answer.
 - Human-like checklist: 30–60s answers, 1 question-hook at end ("Want the scandal behind it?"), contractions, pauses before reveal, no bullet-reading.

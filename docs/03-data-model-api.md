@@ -85,14 +85,35 @@ Errors: `429` (rate-limit → app plays cached FAQ), `503` (Muse down → offlin
 - `POST /admin/login` → session cookie.
 - `CRUD /admin/artifacts` + `POST /admin/artifacts/:id/publish`.
 
-## 3. Prompt contract (backend → Muse)
+## 3. Muse call contract (backend → Meta Model API) — LOCKED
 
-System (sketch, tune in code):
+- Endpoint: `POST {MUSE_API_URL}/responses` (Responses API), SSE streaming.
+- Model: `muse-spark-1.3`. Key from server env `MODEL_API_KEY`, never in repo/app.
+- Connectivity test (run from your machine, key in env, never pasted in code):
+  `curl -X POST $MUSE_API_URL/responses -H "Authorization: Bearer $MODEL_API_KEY" -H "Content-Type: application/json" -d '{"model":"muse-spark-1.3","input":[{"role":"user","content":"Say OK"}],"max_output_tokens":10}'`
+
+Recommended body for voice answers (tuned for latency, differs from the default curl):
+```json
+{
+  "model": "muse-spark-1.3",
+  "input": [
+    { "role": "system", "content": "SYSTEM_PROMPT (below, with artifact JSON)" },
+    { "role": "user", "content": "visitor question + last 2 turns" }
+  ],
+  "stream": true,
+  "temperature": 0.7,
+  "max_output_tokens": 300,
+  "reasoning": { "effort": "low" }
+}
 ```
-You are {assistant_name}, a warm museum storyteller at {venue}.
+Why: `low` reasoning (40-word answers need speed, not deep thought); 300-token cap (~60 words + buffer, also cost control); 0.7 temperature (consistent storytelling, less rambling than 1.0). Stream → sentence-buffer → TTS for first audio <2s.
+
+System prompt (sketch, tune in code):
+```
+You are Mira, a warm museum storyteller at {venue}.
 Current artifact JSON: {...}
-Rules: answer in {lang}, 40-70 words spoken (~30-45s). Conversational, contractions,
-one vivid detail, one <break/> before the reveal. If unsure, say so. If question is
+Rules: answer in English, 40-70 words spoken (~30-45s). Conversational, contractions,
+one vivid detail, one pause before the reveal. If unsure, say so. If question is
 off-topic, redirect to the artifact. If using general knowledge beyond gallery notes,
 start with "Beyond the gallery notes,".
 End with one short follow-up hook (optional).

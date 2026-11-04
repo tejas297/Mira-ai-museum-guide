@@ -18,10 +18,10 @@
 
 ## 2. Wake-word integration (fastest path)
 
-1. Sign up Picovoice Console → create custom wake word "Hey {Name}" → Android `.ppn` + `PORCUPINE_ACCESS_KEY` (30 min).
-2. Add Porcupine Android SDK to app, run sample with your `.ppn` first, isolated.
-3. Wire: hotword detect → chime → stop hotword → start SpeechRecognizer → on STT result → `/ask` → TTS → on TTS done → restart hotword (+300ms).
-4. If Porcupine fails at Hour 9: SKIP, ship mic-only + show hotword as "in progress" — a working mic beats two broken triggers.
+1. Try Picovoice Console signup via **Google/GitHub button** (not the email form) → train "Hey Mira" → Android `.ppn` + `PORCUPINE_ACCESS_KEY` (30 min if it works).
+2. If signup blocked (company-email wall): switch to **Vosk** — add `vosk-android` dep, bundle small English model, grammar `["hey mira"]` in a foreground service. Test detection in a quiet room first, isolated.
+3. Wire (same for either engine): hotword detect → chime → pause hotword → start SpeechRecognizer → on STT result → `/ask` → TTS → on TTS done → resume hotword (+300ms).
+4. If hotword fails at Hour 9: SKIP, ship mic-only + show hotword as "in progress" — a working mic beats two broken triggers.
 
 ## 3. Demo script (180 seconds)
 
@@ -29,7 +29,7 @@
 - 0:20–0:50 — Admin: edit a fun fact live, publish. "Curator updates once, every visitor hears it."
 - 0:50–1:10 — Walk: mock-beacon auto-walk switches artifact card. "No QR, no typing numbers."
 - 1:10–1:50 — Trigger 1 (mic): tap, "What's the scandal behind this sword?" → spoken story + subtitle.
-- 1:50–2:20 — Trigger 2 (wake): "Hey {Name}, how old is it?" → proves always-listening + context.
+- 1:50–2:20 — Trigger 2 (wake): "Hey Mira, how old is it?" → proves always-listening + context.
 - 2:20–2:50 — Architecture flex: `BeaconScanner` interface (mock today, ESP32 tomorrow) + Muse proxy + on-device hotword.
 - 2:50–3:00 — Close: multilingual + analytics next. End line.
 
@@ -63,14 +63,14 @@ No real BLE, no maps/nav, no visitor login, no payments, no multi-venue polish, 
 
 - [ ] 3 artifacts seeded, published via admin.
 - [ ] Walk sim switches nearest artifact <3s.
-- [ ] Mic AND "Hey {Name}" each complete 2 consecutive Q&A, context retained.
+- [ ] Mic AND "Hey Mira" each complete 2 consecutive Q&A, context retained.
 - [ ] Subtitles + barge-in (mic or hotword stops TTS).
 - [ ] Cached fallback answers without Muse.
 - [ ] 3-min video + APK + submit.
 
 ## 8. I still need from you
 
-1. Assistant name (locks wake word + prompt): `Virsa` / `Dhwani` / `Gatha` / yours?
-2. Muse model name + endpoint shape (chat completions? messages?) — paste the doc line or sample curl.
+1. ~~Assistant name~~ — LOCKED: Mira ("Hey Mira").
+2. ~~Muse model~~ — LOCKED: `muse-spark-1.3` via Responses API, streaming, reasoning low, 300 tokens.
 3. Picovoice account: can you create it in the next hour (for Porcupine key + `.ppn`)?
 4. Backend pick: FastAPI or Express (whichever you write faster)?

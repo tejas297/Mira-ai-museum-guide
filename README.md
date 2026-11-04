@@ -1,6 +1,8 @@
-# MuseGuide — Voice AI Museum Guide (Meta AI Hackathon)
+# Mira — Voice AI Museum Guide (Meta AI Hackathon)
 
-Solo indie build: proximity-aware, voice-first AI docent. Stand near an artifact, ask out loud, hear a human-like answer.
+Repo: `mira-ai-museum-guide`
+
+Solo indie build: proximity-aware, voice-first AI docent. Stand near an artifact, ask out loud, hear a human-like answer. Wake word: "Hey Mira".
 
 ## Docs (read in order)
 

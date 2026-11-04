@@ -1,4 +1,4 @@
-# Product Requirements Document — Voice AI Museum Guide ("MuseGuide" working title)
+# Product Requirements Document — Mira, Voice AI Museum Guide
 
 > Role: Product Owner. Audience: solo indie developer + hackathon judges.
 > Version: 0.1 draft. Status: for review.
@@ -29,7 +29,7 @@ Assumption: visitor has smartphone + headphones. Venue has BLE beacons (simulate
 1. Visitor installs app, grants Bluetooth + Mic, selects language.
 2. Visitor walks in. App scans beacons, resolves `nearest_artifact`.
 3. App shows "You are near: [Artifact name]" card with mic button.
-4. Visitor taps mic OR says "Hey [Name]" (both P0), asks: "What is the story behind this?"
+4. Visitor taps mic OR says "Hey Mira" (both P0), asks: "What is the story behind this?"
 5. App listens (STT) → sends query + artifact context to Muse → streams spoken answer (TTS) with human prosody.
 6. Visitor asks follow-ups ("Who made it?", "How old is it?") without re-selecting the artifact.
 7. Visitor walks away. App detects new nearest artifact, updates context, greets: "You're now near..."
@@ -68,8 +68,8 @@ Assumption: visitor has smartphone + headphones. Venue has BLE beacons (simulate
 ### FR-2: Voice interaction
 
 - FR-2.1 Mic button with states: idle / listening / thinking / speaking / error.
-- FR-2.2 Wake-word path: "Hey [Name]" detected → chime → auto-start STT without tap. Same downstream as mic button.
-- FR-2.3 Wake-word toggle in UI (default ON for demo) + visual "listening for Hey [Name]..." indicator.
+- FR-2.2 Wake-word path: "Hey Mira" detected → chime → auto-start STT without tap. Same downstream as mic button.
+- FR-2.3 Wake-word toggle in UI (default ON for demo) + visual "listening for Hey Mira..." indicator.
 - FR-2.4 Barge-in: tapping mic OR saying wake word while speaking stops TTS and listens again.
 - FR-2.5 Auto-stop on silence (VAD ~1.2s) + max 30s per utterance.
 - FR-2.6 Always show text transcript of Q + A for noisy halls and judging.
@@ -106,6 +106,6 @@ Assumption: visitor has smartphone + headphones. Venue has BLE beacons (simulate
 
 See [hackathon plan](04-hackathon-plan.md) §8. Biggest three are in the chat reply.
 
-## 10. Suggested assistant name (pick one)
+## 10. Assistant name — LOCKED: Mira
 
-`Virsa` (heritage) / `Dhwani` (voice) / `Gatha` (story). Short, wake-word friendly, Indian-museum fit.
+Wake word: "Hey Mira". Project: Mira. Repo: `mira-ai-museum-guide`.
