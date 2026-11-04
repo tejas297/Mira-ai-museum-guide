@@ -1,51 +1,80 @@
-# Mira — Voice AI Museum Guide (Meta AI Hackathon)
+# Mira — Your Voice Guide to the Gallery
 
-Repo: `mira-ai-museum-guide`
+**Stand near a painting. Ask out loud. A guide answers — in your language.**
 
-Solo indie build: proximity-aware, voice-first AI docent. Stand near an artifact, ask out loud, hear a human-like answer. Wake word: "Hey Mira".
+Mira is a voice-first AI museum guide. BLE beacons tell the app which artifact you are standing in front of; Meta Muse — grounded in the curator's own records — greets you, answers your questions, remembers your tour, and speaks back like a human guide. No typing. No reading labels. Built solo for the **Meta AI Global Hackathon (Indie Developer track)**.
 
-## Docs (read in order)
+## Try it in 2 minutes
 
-1. [PRD](docs/01-PRD.md) — users, journey, MVP scope.
-2. [Architecture](docs/02-architecture.md) — BLE simulation, voice pipeline, Muse proxy, admin.
-3. [Data model + APIs](docs/03-data-model-api.md) — artifact schema, `/ask` contract, prompt sketch.
-4. [Hackathon plan](docs/04-hackathon-plan.md) — build order, 3-min demo script, cut list.
+- **Download the app:** [Mira v1.0 APK — Google Drive](https://drive.google.com/file/d/1A4yj5GN1hEyEOCzmC36WrrS1CaFun3x3/view?usp=drivesdk) · [GitHub mirror](https://github.com/tejas297/Mira-ai-museum-guide/raw/main/app-release.apk) (Android, 40 MB) — allow "install unknown apps", install, grant the microphone permission.
+- **Demo video:** coming soon <!-- TODO: paste the demo video URL here -->
+- **Live backend:** [mira-ai-museum-guide.fly.dev](https://mira-ai-museum-guide.fly.dev/health) · **Curator admin:** [/admin](https://mira-ai-museum-guide.fly.dev/admin)
 
-## MVP in one paragraph
+**What to try in the app**
 
-Simulated BLE beacons resolve the nearest artifact. Both triggers work: mic button AND always-listening "Hey [Name]". Either drives listen → Muse (artifact-grounded) → neural TTS with human prosody. Curators manage all content in a simple admin portal. Real beacons are stretch.
+1. You land at *Sita Bhoomi Pravesh* (Simulated beacons need no hardware). Mira greets you out loud.
+2. Tap **Ask Mira**, or turn on the **“Hey Mira”** chip above the mic and just speak. Interrupt her mid-sentence — she stops and listens.
+3. Ask a follow-up. Then tap the **globe** (top right) and ask in **हिंदी**.
+4. Switch beacons to **Real** and advertise an iBeacon (nRF Connect, major 1 / minor 12, 15, 18, 19 or 21) from a second phone — the stop flips as you walk.
+5. Tap the **chat icon** if you ever want the transcript. You should not need it.
 
-## Locked decisions (your calls, 16h sprint)
+## Architecture
 
-- Mobile: **Native Android (Kotlin)** — decided by architect, see below.
-- Voice: **mic button + always-listening wake word, both P0**. Battery explicitly out of scope.
-- BLE: in-app mock scanner implementing a `BeaconScanner` interface; real hardware later.
-- Muse key lives only on backend, never in the app.
-- Demo language: **English + हिंदी (Hindi)** — picked on the first-run welcome screen, switchable in the guide.
+![Mira system architecture](diagrams/mira-architecture.png)
 
-## Run the backend (verified)
+The blue path is the product: **voice in → on-device wake word → transcript → FastAPI → Grounding Engine (curator record + tour memory + interests) → Muse Spark 1.3 → sentence stream → spoken answer.** Full diagram, both themes: [diagrams/](diagrams/).
+
+## The problem
+
+Museums speak in wall labels. Human guides are scarce, expensive, and speak one language at a time. So the visitor who benefits most from a guide — a blind visitor, an elderly visitor, a child, a Hindi speaker in an English gallery — is exactly who the current system fails. Meanwhile curators have no idea what visitors actually wonder about in front of each painting.
+
+## What Mira does
+
+- **Knows where you are** — nearest-artifact detection over BLE, simulated in-app for any demo and real iBeacon (second phone) for the physical proof, behind one interface.
+- **Initiates, not just answers** — arrival greetings, and a proactive story hook if you linger quietly.
+- **Answers like a person** — Muse speaks from the curator's record as ground truth, uses broader knowledge carefully for related gaps, admits what it doesn't know, compares with stops you already saw, and adapts to your interests and language (English / हिंदी).
+- **Holds a conversation** — follow-ups with context, true barge-in (tap and she stops mid-sentence), offline "Hey Mira" wake word (Vosk, on-device; nothing leaves the phone until it hears you).
+- **Serves the curator too** — an admin portal to configure every artifact (including the exact nRF Connect hex string per beacon) and analytics: what visitors ask, and how long they dwell.
+
+## How it maps to the judging criteria
+
+### Impact (30%)
+
+Mira turns every phone into a patient, multilingual guide that never sleeps. The beneficiaries are named above; the buyers are museums, palaces, and galleries that could never staff this. It is a license-able product, not a demo trick: curators configure their own collection in the admin, and the analytics loop (top questions per artifact, dwell time) tells them what to improve. It was designed voice-first precisely so that reading is never the price of entry.
+
+### Use of Meta AI Tooling (25%)
+
+Muse Spark 1.3 is not a chatbot endpoint here — it does four jobs: **greeting, proactive storytelling, grounded Q&A, and tour-aware follow-ups**, streamed token-by-sentence into speech so Mira starts talking before the answer finishes. Every response is grounded in the curator's record (admin data wins, always), with tour memory (stops seen, in order), visitor interests, and the wider catalog for comparisons injected per request. Persona is pinned server-side: ask "who are you?" and you meet Mira, not a model. English and Hindi run through the same pipeline.
+
+### Technical Depth & Execution (20%)
+
+Native Kotlin Android: dual beacon engines (mock + real iBeacon) behind one `BeaconScanner`, nearest-stop resolver with debounce, RSSI smoothing with stable ordering, three beacon views (List / Cards / Radar), reusable speech recognizer with voice-level feedback, generation-guarded barge-in, haptics, and a full state machine for the mic (Ask / Listening / Thinking / Tap-to-interrupt). FastAPI + SQLite backend with SSE streaming, identity short-circuit, hardened offline fallback, admin CRUD + analytics, unit tests (`app/src/test`, `server/test_main.py`), and a Docker + Fly.io deployment with a persistent volume. The [feature-by-feature evidence log](docs/05-features-e2e.md) records what was verified, where, and how.
+
+### Demo (25%)
+
+It is live, not staged: the backend runs publicly on Fly.io, and the APK above talks to it with no cable, no local server, no setup. Everything in the app works on a judge's own phone in Simulated mode; the real-beacon path needs only a second phone running nRF Connect. The demo video (link above) walks the full arc — greeting, interruption, follow-up, Hindi, real-beacon flip, admin edit changing the next answer, analytics — in 3 minutes.
+
+## Run it yourself
+
+Backend (local):
 
 ```bash
 source .venv/bin/activate
-cp server/.env.example server/.env   # put MODEL_API_KEY + ADMIN_PASSWORD in server/.env
+cp server/.env.example server/.env   # MODEL_API_KEY + ADMIN_PASSWORD
 cd server && python -m uvicorn main:app --host 0.0.0.0 --port 8000
 ```
 
-Then open `http://localhost:8000/admin` (log in, edit artifacts) and
-`http://localhost:8000/health`. Muse is the normal answer engine; without a key, `/ask` uses a limited curated fallback —
-the demo-proof fallback. First run seeds 3 demo artifacts (Ravi Varma painting, bronze sculpture, Chinese porcelain) into `server/mira.db`.
+First boot seeds 5 artifacts (Raja Ravi Varma paintings, bronze sculpture, Chinese porcelain) into SQLite. Production runs the same code via the repo-root `Dockerfile` / `fly.toml` (`MIRA_DB_PATH` points SQLite at the Fly volume). Android: open in Android Studio, `assembleDebug` for USB development (`adb reverse tcp:8000 tcp:8000`), `assembleRelease` builds the judge APK against the live backend.
 
-**First launch** shows a welcome screen: what Mira does, plus an English/हिंदी language picker. The choice is remembered; relaunch goes straight to the guide. Clear app data to see it again. The guide has a **Language** button to switch any time — greetings, answers, speech recognition, and spoken voice follow it.
+## Repo map
 
-## Layout
+| Path | What |
+|---|---|
+| `app/` | Android app (Kotlin): voice UI, beacon engines, Vosk wake word |
+| `server/` | FastAPI backend, admin portal (`static/admin.html`), SQLite |
+| `demo/` | Seed artifacts (the curator's records) |
+| `diagrams/` | Architecture diagram (HTML + light/dark PNG) |
+| `docs/` | [PRD](docs/01-PRD.md) · [Architecture](docs/02-architecture.md) · [Data & API](docs/03-data-model-api.md) · [Plan](docs/04-hackathon-plan.md) · [Features & evidence](docs/05-features-e2e.md) |
+| `app-release.apk` | The judge build (v1.0, signed) |
 
-```
-/server   FastAPI backend + admin page (main.py, static/admin.html)
-/demo     seed_artifacts.json
-/docs     PRD, architecture, data model, hackathon plan
-/app      Android app (Kotlin) — built, APK at app/build/outputs/apk/debug/app-debug.apk
-```
-
-## Why native Android over React Native for THIS project
-
-Single phone demo, 16 hours, wake word + BLE + low-latency audio. Native wins: first-class `BluetoothLeScanner`, `SpeechRecognizer` + `TextToSpeech` built in, Porcupine wake-word Android SDK with sample code, no JS-bridge audio debugging, one APK to install. RN only if you must demo on an iPhone — you don't.
+*Mira was designed, built, and verified solo in a 16-hour sprint — every feature above was exercised on a physical phone, and the answers you will hear come from live Muse, grounded in records a curator typed.*
