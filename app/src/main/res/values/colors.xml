@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="mira_bg">#F7F5F0</color>
+    <color name="mira_card">#FFFFFF</color>
+    <color name="mira_teal">#0F766E</color>
+    <color name="mira_teal_dark">#0B3B36</color>
+    <color name="mira_teal_soft">#E6F2ED</color>
+    <color name="mira_teal_text_on">#CDE8DF</color>
+    <color name="mira_amber">#D97706</color>
+    <color name="mira_text">#1C1917</color>
+    <color name="mira_muted">#6B6660</color>
+    <color name="mira_border">#E7E0D4</color>
+    <color name="mira_far">#A8A29E</color>
+</resources>

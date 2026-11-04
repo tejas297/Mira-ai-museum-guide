@@ -37,7 +37,7 @@ Backup for every step: manual artifact picker + typed question + cached FAQ answ
 
 ## 4. Cut list (16h freeze — say NO)
 
-No real BLE, no maps/nav, no visitor login, no payments, no multi-venue polish, no vector DB (inject full record), no cloud STT, no second language, no analytics UI, no CI/CD beyond one deploy + one APK.
+No real BLE, no maps/nav, no visitor login, no payments, no multi-venue polish, no vector DB (inject full record), no cloud STT, no analytics UI, no CI/CD beyond one deploy + one APK.
 
 ## 5. Risks + mitigations
 

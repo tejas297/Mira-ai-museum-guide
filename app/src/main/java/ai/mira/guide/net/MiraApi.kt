@@ -43,6 +43,7 @@ object MiraApi {
         visited: List<String>,
         interests: List<String>,
         proactiveIndex: Int,
+        lang: String,
         onSentence: (String) -> Unit
     ): String {
         val body = JSONObject()
@@ -52,6 +53,7 @@ object MiraApi {
             .put("visited", JSONArray(visited))
             .put("interests", JSONArray(interests))
             .put("proactive_index", proactiveIndex)
+            .put("lang", lang)
             .put(
                 "history",
                 JSONArray(history.map { JSONObject().put("role", it.role).put("text", it.text) })

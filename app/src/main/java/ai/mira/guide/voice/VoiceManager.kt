@@ -15,10 +15,13 @@ import java.util.Locale
  * calling [stopSpeaking] cuts TTS instantly so a new listen can start.
  */
 class VoiceManager(context: Context) {
+    var language: String = "en"
     var onPartial: ((String) -> Unit)? = null
     var onFinal: ((String) -> Unit)? = null
     var onListenError: ((String) -> Unit)? = null
     var onSpeakDone: (() -> Unit)? = null
+    /** Live mic level (roughly -2..10 dB) so the UI can react to the voice. */
+    var onRms: ((Float) -> Unit)? = null
 
     private var recognizer: SpeechRecognizer? = null
     private val tts: TextToSpeech
@@ -29,7 +32,7 @@ class VoiceManager(context: Context) {
     init {
         tts = TextToSpeech(context) { status ->
             if (status == TextToSpeech.SUCCESS) {
-                tts.language = Locale.US
+                applyTtsLanguage()
                 tts.setSpeechRate(0.95f)
             }
         }
@@ -42,11 +45,25 @@ class VoiceManager(context: Context) {
         })
     }
 
+    private fun applyTtsLanguage() {
+        tts.language = if (language == "hi") Locale("hi", "IN") else Locale.US
+    }
+
+    fun applyLanguage(code: String) {
+        language = code
+        try {
+            applyTtsLanguage()
+        } catch (e: Exception) {
+            // TTS not ready yet; language applies when init completes.
+        }
+    }
+
     fun startListening(ctx: Context) {
         stopSpeaking()
-        recognizer?.destroy()
-        val sr = SpeechRecognizer.createSpeechRecognizer(ctx)
-        recognizer = sr
+        // Reuse one recognizer: creating it per turn costs ~0.5s of dead air.
+        val sr = recognizer ?: SpeechRecognizer.createSpeechRecognizer(ctx).also {
+            recognizer = it
+        }
         sr.setRecognitionListener(object : RecognitionListener {
             override fun onResults(results: Bundle?) {
                 val text = results
@@ -71,14 +88,14 @@ class VoiceManager(context: Context) {
             }
             override fun onReadyForSpeech(p: Bundle?) {}
             override fun onBeginningOfSpeech() {}
-            override fun onRmsChanged(v: Float) {}
+            override fun onRmsChanged(v: Float) { onRms?.invoke(v) }
             override fun onBufferReceived(b: ByteArray?) {}
             override fun onEndOfSpeech() {}
             override fun onEvent(t: Int, p: Bundle?) {}
         })
         val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {
             putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
-            putExtra(RecognizerIntent.EXTRA_LANGUAGE, "en-US")
+            putExtra(RecognizerIntent.EXTRA_LANGUAGE, if (language == "hi") "hi-IN" else "en-US")
             putExtra(RecognizerIntent.EXTRA_PARTIAL_RESULTS, true)
             putExtra(RecognizerIntent.EXTRA_SPEECH_INPUT_COMPLETE_SILENCE_LENGTH_MILLIS, 1200L)
         }
@@ -87,6 +104,16 @@ class VoiceManager(context: Context) {
 
     fun stopListening() {
         recognizer?.stopListening()
+    }
+
+    /** Hard interrupt: silence TTS and drop any in-flight recognition now. */
+    fun interrupt() {
+        stopSpeaking()
+        try {
+            recognizer?.cancel()
+        } catch (e: Exception) {
+            // Recognizer already idle: nothing to cancel.
+        }
     }
 
     private fun utteranceFinished() {
@@ -107,7 +134,9 @@ class VoiceManager(context: Context) {
         }
         pendingUtterances++
         val mode = if (flush) TextToSpeech.QUEUE_FLUSH else TextToSpeech.QUEUE_ADD
-        tts.speak(text, mode, null, "mira-${System.nanoTime()}")
+        // Muse sometimes emits *emphasis* markdown; never read it aloud.
+        val spoken = text.replace("*", "").replace("#", "").replace("`", "")
+        tts.speak(spoken, mode, null, "mira-${System.nanoTime()}")
     }
 
     fun stopSpeaking() {

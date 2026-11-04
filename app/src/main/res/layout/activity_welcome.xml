@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/mira_bg">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="24dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Mira"
+            android:textColor="@color/mira_teal_dark"
+            android:textSize="40sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Your voice guide to this gallery"
+            android:textColor="@color/mira_muted"
+            android:textSize="16sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/bg_hero"
+            android:orientation="vertical"
+            android:padding="18dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Walk. Ask. Listen."
+                android:textColor="@android:color/white"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:lineSpacingMultiplier="1.35"
+                android:text="No typing. No reading long text. Just look at the art — Mira talks to you like a guide walking beside you."
+                android:textColor="@color/mira_teal_text_on"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:background="@drawable/bg_circle"
+                android:gravity="center"
+                android:text="1"
+                android:textColor="@android:color/white"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_weight="1"
+                android:text="Walk near any artwork. Mira knows where you are."
+                android:textColor="@color/mira_text"
+                android:textSize="15sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:background="@drawable/bg_circle"
+                android:gravity="center"
+                android:text="2"
+                android:textColor="@android:color/white"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_weight="1"
+                android:text="Say “Hey Mira”, or tap Ask Mira, and just ask."
+                android:textColor="@color/mira_text"
+                android:textSize="15sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:background="@drawable/bg_circle"
+                android:gravity="center"
+                android:text="3"
+                android:textColor="@android:color/white"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_weight="1"
+                android:text="She answers out loud. Ask a follow-up — it is a conversation."
+                android:textColor="@color/mira_text"
+                android:textSize="15sp" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="26dp"
+            android:text="Choose your language / भाषा चुनें"
+            android:textColor="@color/mira_muted"
+            android:textSize="12sp"
+            android:textStyle="bold" />
+
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="vertical">
+
+            <RadioButton
+                android:id="@+id/rbLangEn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_card"
+                android:checked="true"
+                android:padding="16dp"
+                android:text="English"
+                android:textColor="@color/mira_text"
+                android:textSize="16sp" />
+
+            <RadioButton
+                android:id="@+id/rbLangHi"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/bg_card"
+                android:padding="16dp"
+                android:text="हिंदी"
+                android:textColor="@color/mira_text"
+                android:textSize="16sp" />
+        </RadioGroup>
+
+        <Button
+                android:textAllCaps="false"
+            android:id="@+id/btnStart"
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
+            android:layout_marginTop="24dp"
+            android:background="@drawable/bg_mic"
+            android:text="Start exploring"
+            android:textColor="@android:color/white"
+            android:textSize="17sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:text="Mira will ask for microphone and Bluetooth permission. Your voice is only sent after you say Hey Mira or tap Ask Mira."
+            android:textColor="@color/mira_muted"
+            android:textSize="12sp" />
+
+    </LinearLayout>
+</ScrollView>

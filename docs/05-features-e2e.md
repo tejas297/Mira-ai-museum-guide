@@ -24,6 +24,14 @@
 | F1.16 | Proactive Mira: unsolicited hook after 20s dwell, max 3 per stop | P0 | DONE (verified on phone) |
 | F1.17 | Tour memory + interests: visited titles and visitor interests shape every answer | P0 | DONE (prompt-verified via stub) |
 | F1.18 | Conversational follow-ups: mic reopens after each answer ("anything else?"), silence ends quietly, tap pauses; after greetings/hooks too when hands-free mode is on | P0 | DONE (follow-up listen opening logcat-verified on phone) |
+| F1.19 | First-run welcome screen: what Mira does + English/हिंदी picker; shown once, then straight to guide | P0 | DONE (verified on phone: fresh install shows it, relaunch skips it) |
+| F1.20 | Hindi end-to-end: `hi-IN` speech recognition, Hindi TTS voice, greetings/answers in Devanagari; Language button switches live | P0 | DONE (Hindi greeting from live Muse verified on phone) |
+| F1.21 | Redesigned voice-first UI: teal “You are near” hero with proximity pill, large Ask Mira button with Listening/Thinking/Speaking states, status pill, card layout | P0 | DONE (screenshot-verified on phone) |
+| F1.22 | Three beacon views with switcher (remembered): **List** nearest-first, **Cards** 2-column tiles, **Radar** proximity rings with YOU in centre; tap a beacon in Simulated mode to jump there | P0 | DONE (all three screenshot-verified; tap-to-jump switches the stop) |
+| F1.23 | Smooth interaction: single mic state machine (Ask/Listening/Thinking/Tap-to-interrupt) with colour + pulse + live voice-level scaling, true barge-in (stale streamed sentences dropped by generation guard), reusable recognizer, smoothed RSSI with stable list order, animated hero on stop change, haptics, no auto-scroll jumps | P0 | DONE (Thinking/Speaking/Listening-after-barge-in screenshot-verified; proactive re-speak after 20s dwell observed) |
+| F1.24 | Voice-first chrome: Ask Mira fixed at bottom centre with press bounce, haptic tick, and expanding rings while listening/speaking; Conversation hidden by default behind a Show/Hide button (choice remembered) | P0 | DONE (screenshot-verified on phone, incl. ring mid-animation) |
+| F1.25 | Real beacon honesty: panel lists only beacons heard in the last seconds (`visibleBeaconMinors`), header shows “N active”, clear empty state; mock still lists all | P0 | DONE (3 unit tests in `BeaconFilterTest`; phone shows 0 active with no rows) |
+| F1.26 | Minimal modern chrome: top-right icon buttons (globe EN/हिं toggle, heart = My interests), Hey Mira on-off as a small chip above the mic, status strip removed in favour of event toasts, smaller bottom-centre Ask Mira with a chat button that opens the conversation as a scrollable popup (✕ or outside to close), Auto tour/Next hidden in Real mode | P0 | DONE (icons, wake chip, toast “Mira will speak English now.”, popup open/close, and Real-mode control hiding all screenshot-verified) |
 
 ## 6. Verification evidence (2026-11-04, this machine)
 
@@ -34,6 +42,8 @@
 - Emulator audio is unusable (host PulseAudio driver init fails in guest), so voice rows were verified on the phone instead. Emulator still covers UI/walk/typed paths.
 - Live Muse is now verified through `/ask` with open-ended interpretation, cross-artifact comparison, child-friendly detail, small talk, and a safe non-invented answer for an unknown closing time. Admin edit appearing in app remains the main unverified integration item.
 - Curated FAQ matching is only an offline/emergency fallback. It now requires at least two shared content words; live Muse does not use it as a script.
+- Welcome + Hindi (2026-11-05): fresh install (`pm clear`) shows the welcome screen; choosing हिंदी enters the guide and Mira greets in Hindi from live Muse; relaunch goes straight to the guide with the language kept.
+- UI redesign (2026-11-05): new main + welcome screens verified by phone screenshots; List/Cards/Radar beacon views all render live data; tapping the Bronze row in List switched the hero card and proximity pill to Bronze Sculpture. `gradle lintDebug` passes after adding BLE permission guards in `BleBeaconScanner` and `ACCESS_COARSE_LOCATION`.
 | F1.13 | Real BLE scan (iBeacon) behind same `BeaconScanner` interface, Simulated/Real switch in UI | P0 | DONE (real-radio proof: laptop iBeacon minor 12 detected at -47 dBm / Immediate on phone) |
 | F2.7 | `POST /events` + `GET /admin/analytics`: questions, dwell, top questions per artifact | P1 | DONE (app dwell events verified in DB) |
 

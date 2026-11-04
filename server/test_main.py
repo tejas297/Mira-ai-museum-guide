@@ -68,6 +68,13 @@ def test_live_prompt_is_flexible_not_faq_scripted():
     assert "start with 'Beyond the gallery notes,'" not in prompt, prompt
 
 
+def test_hindi_prompt():
+    art = main._get("art_001")
+    req = main.AskRequest(artifact_id="art_001", question_text="Namaste", lang="hi")
+    prompt = main._system_prompt(art, req)
+    assert "Hindi" in prompt and "Devanagari" in prompt, prompt
+
+
 def test_analytics_events():
     probe = "analytics probe question xyz"
     for _ in range(2):
@@ -100,6 +107,8 @@ if __name__ == "__main__":
     print("false-match ok")
     test_live_prompt_is_flexible_not_faq_scripted()
     print("flexible prompt ok")
+    test_hindi_prompt()
+    print("hindi prompt ok")
     test_analytics_events()
     print("analytics ok")
     print("ALL PASS")

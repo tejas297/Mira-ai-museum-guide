@@ -13,6 +13,19 @@ import kotlin.math.abs
 data class Sighting(val minor: Int, val rssi: Int, val atMs: Long)
 
 /**
+ * Which beacons the panel lists. Simulated mode shows every configured
+ * stop (it is a tour you can preview). Real mode shows only beacons the
+ * radio has actually heard from recently — listing silent beacons would
+ * pretend coverage that is not there.
+ */
+fun visibleBeaconMinors(
+    realMode: Boolean,
+    all: Collection<Int>,
+    sighted: Collection<Int>
+): Set<Int> =
+    if (realMode) all.filter { it in sighted }.toSet() else all.toSet()
+
+/**
  * Single seam between simulated and real beacons. The mock below and a future
  * BluetoothLeScanner implementation speak the same sightings stream.
  */
@@ -65,7 +78,7 @@ class MockBeaconScanner(private val artifacts: List<Artifact>) : BeaconScanner {
  * same sightings stream as the mock. Permissions are checked by the caller.
  */
 class BleBeaconScanner(
-    @Suppress("UNUSED_PARAMETER") context: Context,
+    private val context: Context,
     private val venueUuid: String = "B9407F30-F5F8-466E-AFF9-25556B57FE6D"
 ) : BeaconScanner {
     private val handler = Handler(Looper.getMainLooper())
@@ -95,13 +108,30 @@ class BleBeaconScanner(
         }
     }
 
+    private fun hasScanPermission(): Boolean {
+        val perm = if (android.os.Build.VERSION.SDK_INT >= 31) {
+            android.Manifest.permission.BLUETOOTH_SCAN
+        } else {
+            android.Manifest.permission.ACCESS_FINE_LOCATION
+        }
+        return androidx.core.content.ContextCompat.checkSelfPermission(
+            context, perm
+        ) == android.content.pm.PackageManager.PERMISSION_GRANTED
+    }
+
     override fun start(onSightings: (List<Sighting>) -> Unit) {
         callback = onSightings
+        // Permission may be revoked after the caller checked: never crash.
+        if (!hasScanPermission()) return
         val scanner = BluetoothAdapter.getDefaultAdapter()?.bluetoothLeScanner ?: return
         val settings = ScanSettings.Builder()
             .setScanMode(ScanSettings.SCAN_MODE_LOW_LATENCY)
             .build()
-        scanner.startScan(null, settings, scanCallback)
+        try {
+            scanner.startScan(null, settings, scanCallback)
+        } catch (e: SecurityException) {
+            return
+        }
         emitting = true
         handler.post(emitTick)
     }
@@ -110,7 +140,17 @@ class BleBeaconScanner(
         emitting = false
         handler.removeCallbacks(emitTick)
         try {
-            BluetoothAdapter.getDefaultAdapter()?.bluetoothLeScanner?.stopScan(scanCallback)
+            val perm = if (android.os.Build.VERSION.SDK_INT >= 31) {
+                android.Manifest.permission.BLUETOOTH_SCAN
+            } else {
+                android.Manifest.permission.ACCESS_FINE_LOCATION
+            }
+            if (androidx.core.content.ContextCompat.checkSelfPermission(
+                    context, perm
+                ) == android.content.pm.PackageManager.PERMISSION_GRANTED
+            ) {
+                BluetoothAdapter.getDefaultAdapter()?.bluetoothLeScanner?.stopScan(scanCallback)
+            }
         } catch (e: Exception) {
             // Bluetooth off or permission revoked mid-scan: stopping is best-effort.
         }

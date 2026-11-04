@@ -1,7 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/mira_bg"
+    android:orientation="vertical">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -9,144 +16,441 @@
         android:orientation="vertical"
         android:padding="16dp">
 
-        <TextView
-            android:id="@+id/tvStatus"
+        <!-- Header -->
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Starting..."
-            android:textSize="13sp" />
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Mira"
+                    android:textColor="@color/mira_teal_dark"
+                    android:textSize="26sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Your voice museum guide"
+                    android:textColor="@color/mira_muted"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <Button
+                    android:textAllCaps="false"
+                    android:id="@+id/btnLang"
+                    android:layout_width="wrap_content"
+                    android:layout_height="48dp"
+                    android:background="@drawable/bg_btn_secondary"
+                    android:drawableLeft="@drawable/ic_language"
+                    android:drawablePadding="6dp"
+                    android:paddingLeft="12dp"
+                    android:paddingRight="12dp"
+                    android:text="EN"
+                    android:textColor="@color/mira_teal_dark"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <Button
+                    android:textAllCaps="false"
+                    android:id="@+id/btnInterestsIcon"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_marginStart="8dp"
+                    android:background="@drawable/bg_circle_heart"
+                    android:contentDescription="My interests" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Now near hero -->
+        <LinearLayout
+            android:id="@+id/heroCard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:background="@drawable/bg_hero"
+            android:orientation="vertical"
+            android:padding="18dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="YOU ARE NEAR"
+                android:textColor="@color/mira_teal_text_on"
+                android:textSize="11sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvArtifactTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="No artifact nearby"
+                android:textColor="@android:color/white"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvProximity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:background="@drawable/bg_pill"
+                android:paddingLeft="10dp"
+                android:paddingTop="4dp"
+                android:paddingRight="10dp"
+                android:paddingBottom="4dp"
+                android:text="Finding beacon…"
+                android:textColor="@color/mira_teal_dark"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvArtifactMeta"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text=""
+                android:textColor="@color/mira_teal_text_on"
+                android:textSize="13sp" />
+
+            <TextView
+                android:id="@+id/tvIntro"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:lineSpacingMultiplier="1.35"
+                android:text=""
+                android:textColor="@android:color/white"
+                android:textSize="15sp" />
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="14dp"
-            android:background="#EEF3EE"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/etQuestion"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/bg_input"
+                android:hint="…or type a question"
+                android:inputType="text"
+                android:paddingLeft="14dp"
+                android:paddingTop="10dp"
+                android:paddingRight="14dp"
+                android:paddingBottom="10dp"
+                android:textSize="14sp" />
+
+            <Button
+                android:textAllCaps="false"
+                android:id="@+id/btnAsk"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginStart="8dp"
+                android:background="@drawable/bg_mic"
+                android:paddingLeft="18dp"
+                android:paddingRight="18dp"
+                android:text="Ask"
+                android:textColor="@android:color/white"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <!-- Beacons -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:background="@drawable/bg_card"
             android:orientation="vertical"
-            android:padding="12dp">
+            android:padding="14dp">
 
             <TextView
                 android:id="@+id/tvScanStatus"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Scanning nearby beacons..."
-                android:textSize="14sp"
+                android:text="Scanning nearby beacons…"
+                android:textColor="@color/mira_text"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="BEACON SOURCE"
+                android:textColor="@color/mira_muted"
+                android:textSize="11sp"
                 android:textStyle="bold" />
 
             <RadioGroup
                 android:id="@+id/rgBeaconMode"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
+
                 <RadioButton
                     android:id="@+id/rbMock"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:checked="true"
                     android:text="Simulated" />
+
                 <RadioButton
                     android:id="@+id/rbReal"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:text="Real beacons" />
+            </RadioGroup>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="HOW TO SHOW THEM"
+                android:textColor="@color/mira_muted"
+                android:textSize="11sp"
+                android:textStyle="bold" />
+
+            <RadioGroup
+                android:id="@+id/rgBeaconView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/rbViewList"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:checked="true"
+                    android:text="List" />
+
+                <RadioButton
+                    android:id="@+id/rbViewCards"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Cards" />
+
+                <RadioButton
+                    android:id="@+id/rbViewRadar"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Radar" />
             </RadioGroup>
 
             <LinearLayout
                 android:id="@+id/llBeacons"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
                 android:orientation="vertical" />
 
             <LinearLayout
+                android:id="@+id/llGrid"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="8dp"
+                android:orientation="vertical"
+                android:visibility="gone" />
+
+            <LinearLayout
+                android:id="@+id/radarContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <ai.mira.guide.ui.RadarView
+                    android:id="@+id/radarView"
+                    android:layout_width="match_parent"
+                    android:layout_height="270dp" />
+
+                <TextView
+                    android:id="@+id/tvRadarSummary"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:textColor="@color/mira_muted"
+                    android:textSize="13sp" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tvBeaconEmpty"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:gravity="center"
+                android:padding="16dp"
+                android:text="No beacons in range.\nMove closer to an artwork — or switch to Simulated to try the tour."
+                android:textColor="@color/mira_muted"
+                android:textSize="14sp"
+                android:visibility="gone" />
+
+            <LinearLayout
+                android:id="@+id/controlsRow"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
                 android:orientation="horizontal">
+
                 <Button
+                android:textAllCaps="false"
                     android:id="@+id/btnAutoWalk"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Auto tour: off" />
+                    android:background="@drawable/bg_btn_secondary"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:text="Auto tour: off"
+                    android:textColor="@color/mira_teal"
+                    android:textSize="13sp" />
+
                 <Button
+                android:textAllCaps="false"
                     android:id="@+id/btnNext"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
                     android:layout_weight="1"
-                    android:text="Next artifact" />
+                    android:background="@drawable/bg_mic"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:text="Next artifact"
+                    android:textColor="@android:color/white"
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
             </LinearLayout>
+
+            <TextView
+                android:id="@+id/tvSimHint"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:gravity="center"
+                android:text="In Simulated mode, tap any beacon to jump there."
+                android:textColor="@color/mira_muted"
+                android:textSize="11sp" />
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/tvArtifactTitle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="No artifact nearby"
-            android:textSize="22sp"
-            android:textStyle="bold" />
+    </LinearLayout>
+    </ScrollView>
 
-        <TextView
-            android:id="@+id/tvArtifactMeta"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text=""
-            android:textSize="13sp" />
+    <!-- Fixed voice bar: the one control a visitor needs. -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/mira_bg"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:paddingLeft="16dp"
+        android:paddingTop="10dp"
+        android:paddingRight="16dp"
+        android:paddingBottom="14dp">
 
-        <TextView
-            android:id="@+id/tvIntro"
+        <View
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="6dp"
-            android:text=""
-            android:textSize="15sp" />
+            android:layout_height="1dp"
+            android:layout_marginBottom="10dp"
+            android:background="@color/mira_border" />
 
         <Button
-            android:id="@+id/btnMic"
-            android:layout_width="match_parent"
-            android:layout_height="72dp"
-            android:layout_marginTop="16dp"
-            android:text="Ask Mira"
-            android:textSize="18sp" />
+            android:textAllCaps="false"
+            android:id="@+id/btnWakeChip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:background="@drawable/bg_pill"
+            android:paddingLeft="14dp"
+            android:paddingTop="6dp"
+            android:paddingRight="14dp"
+            android:paddingBottom="6dp"
+            android:text="“Hey Mira” listening: off"
+            android:textColor="@color/mira_muted"
+            android:textSize="12sp" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:gravity="center"
             android:orientation="horizontal">
-            <EditText
-                android:id="@+id/etQuestion"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:hint="...or type a question"
-                android:inputType="text" />
+
             <Button
-                android:id="@+id/btnAsk"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Ask" />
+                    android:textAllCaps="false"
+                android:id="@+id/btnChat"
+                android:layout_width="54dp"
+                android:layout_height="54dp"
+                android:layout_marginEnd="14dp"
+                android:background="@drawable/bg_circle_btn"
+                android:contentDescription="Conversation" />
+
+            <FrameLayout
+                android:id="@+id/micWrap"
+                android:layout_width="252dp"
+                android:layout_height="102dp">
+
+                <View
+                    android:id="@+id/ring1"
+                    android:layout_width="204dp"
+                    android:layout_height="66dp"
+                    android:layout_gravity="center"
+                    android:alpha="0"
+                    android:background="@drawable/bg_ring" />
+
+                <View
+                    android:id="@+id/ring2"
+                    android:layout_width="204dp"
+                    android:layout_height="66dp"
+                    android:layout_gravity="center"
+                    android:alpha="0"
+                    android:background="@drawable/bg_ring" />
+
+                <Button
+                        android:textAllCaps="false"
+                    android:id="@+id/btnMic"
+                    android:layout_width="204dp"
+                    android:layout_height="66dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/bg_mic"
+                    android:text="Ask Mira"
+                    android:textColor="@android:color/white"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+            </FrameLayout>
         </LinearLayout>
 
-        <Switch
-            android:id="@+id/swWake"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="Always listen for Hey Mira" />
-
-        <Button
-            android:id="@+id/btnInterests"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="My interests" />
-
         <TextView
-            android:id="@+id/tvTranscript"
+            android:id="@+id/tvMicHint"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="14dp"
-            android:text=""
-            android:textSize="15sp" />
-
+            android:layout_marginTop="6dp"
+            android:gravity="center"
+            android:text="Tap and ask out loud — or say “Hey Mira”"
+            android:textColor="@color/mira_muted"
+            android:textSize="12sp" />
     </LinearLayout>
-</ScrollView>
+</LinearLayout>

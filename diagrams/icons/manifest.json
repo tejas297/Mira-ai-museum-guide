@@ -1,0 +1,80 @@
+{
+  "kotlin": {
+    "source": "svgl",
+    "url": "https://svgl.app/library/kotlin.svg",
+    "file": "kotlin.svg",
+    "bytes": 410
+  },
+  "android": {
+    "source": "svgl",
+    "url": "https://svgl.app/library/android-icon.svg",
+    "file": "android.svg",
+    "bytes": 1893
+  },
+  "fastapi": {
+    "source": "svgl",
+    "url": "https://svgl.app/library/fastapi.svg",
+    "file": "fastapi.svg",
+    "bytes": 280
+  },
+  "python": {
+    "source": "svgl",
+    "url": "https://svgl.app/library/python.svg",
+    "file": "python.svg",
+    "bytes": 1126
+  },
+  "sqlite": {
+    "source": "svgl",
+    "url": "https://svgl.app/library/sqlite.svg",
+    "file": "sqlite.svg",
+    "bytes": 3646
+  },
+  "meta": {
+    "source": "svgl",
+    "url": "https://svgl.app/library/meta.svg",
+    "file": "meta.svg",
+    "bytes": 2199
+  },
+  "vosk": {
+    "source": "lucide",
+    "url": "https://cdn.jsdelivr.net/npm/lucide-static/icons/ear.svg",
+    "file": "vosk.svg",
+    "bytes": 408
+  },
+  "stt": {
+    "source": "lucide",
+    "url": "https://cdn.jsdelivr.net/npm/lucide-static/icons/mic.svg",
+    "file": "stt.svg",
+    "bytes": 397
+  },
+  "tts": {
+    "source": "lucide",
+    "url": "https://cdn.jsdelivr.net/npm/lucide-static/icons/volume-2.svg",
+    "file": "tts.svg",
+    "bytes": 552
+  },
+  "ble": {
+    "source": "lucide",
+    "url": "https://cdn.jsdelivr.net/npm/lucide-static/icons/bluetooth.svg",
+    "file": "ble.svg",
+    "bytes": 326
+  },
+  "beaconphone": {
+    "source": "lucide",
+    "url": "https://cdn.jsdelivr.net/npm/lucide-static/icons/smartphone.svg",
+    "file": "beaconphone.svg",
+    "bytes": 372
+  },
+  "grounding": {
+    "source": "lucide",
+    "url": "https://cdn.jsdelivr.net/npm/lucide-static/icons/sparkles.svg",
+    "file": "grounding.svg",
+    "bytes": 643
+  },
+  "admin": {
+    "source": "lucide",
+    "url": "https://cdn.jsdelivr.net/npm/lucide-static/icons/layout-dashboard.svg",
+    "file": "admin.svg",
+    "bytes": 500
+  }
+}

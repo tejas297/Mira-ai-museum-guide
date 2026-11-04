@@ -21,7 +21,7 @@ Simulated BLE beacons resolve the nearest artifact. Both triggers work: mic butt
 - Voice: **mic button + always-listening wake word, both P0**. Battery explicitly out of scope.
 - BLE: in-app mock scanner implementing a `BeaconScanner` interface; real hardware later.
 - Muse key lives only on backend, never in the app.
-- Demo language: **English only**.
+- Demo language: **English + हिंदी (Hindi)** — picked on the first-run welcome screen, switchable in the guide.
 
 ## Run the backend (verified)
 
@@ -34,6 +34,8 @@ cd server && python -m uvicorn main:app --host 0.0.0.0 --port 8000
 Then open `http://localhost:8000/admin` (log in, edit artifacts) and
 `http://localhost:8000/health`. Muse is the normal answer engine; without a key, `/ask` uses a limited curated fallback —
 the demo-proof fallback. First run seeds 3 demo artifacts (Ravi Varma painting, bronze sculpture, Chinese porcelain) into `server/mira.db`.
+
+**First launch** shows a welcome screen: what Mira does, plus an English/हिंदी language picker. The choice is remembered; relaunch goes straight to the guide. Clear app data to see it again. The guide has a **Language** button to switch any time — greetings, answers, speech recognition, and spoken voice follow it.
 
 ## Layout
 

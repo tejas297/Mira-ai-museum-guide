@@ -189,10 +189,17 @@ def _system_prompt(art: dict, req: AskRequest) -> str:
     taste = ""
     if req.interests:
         taste = f" The visitor leans toward: {', '.join(req.interests)}. Angle your telling that way."
+    lang_rule = (
+        "Speak in natural, warm Hindi written in Devanagari script. Mix in English "
+        "only for names and common terms, the way a real Indian guide speaks. "
+        if req.lang == "hi"
+        else "Speak in English. "
+    )
     base = (
         "You are Mira, a warm museum storyteller in a museum gallery. "
         "Your name is Mira. If anyone asks who you are, introduce yourself as Mira, "
         "their gallery guide. Never call yourself an AI model or language model. "
+        f"{lang_rule}"
         f"Current artifact record: {json.dumps(facts)}. "
         f"Other artifacts in this gallery: {json.dumps(catalog)}.{memory}{taste} "
     )
