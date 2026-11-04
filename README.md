@@ -64,7 +64,15 @@ Mira turns every phone into a patient, multilingual guide that never sleeps. The
 
 ### Use of Meta AI Tooling (25%)
 
-Muse Spark 1.3 is not a chatbot endpoint here — it does four jobs: **greeting, proactive storytelling, grounded Q&A, and tour-aware follow-ups**, streamed token-by-sentence into speech so Mira starts talking before the answer finishes. Every response is grounded in the curator's record (admin data wins, always), with tour memory (stops seen, in order), visitor interests, and the wider catalog for comparisons injected per request. Persona is pinned server-side: ask "who are you?" and you meet Mira, not a model. English and Hindi run through the same pipeline.
+**At runtime, Muse Spark 1.3 is the guide's mind — used well past a single chat call:**
+
+- **Streaming generation, consumed live.** Tokens arrive as `response.output_text.delta` events, are re-split into sentences server-side, and are spoken while the rest still generates. Mira starts talking in about a second instead of after a full paragraph — the difference between a guide and a loading spinner.
+- **Grounded, long-context prompting.** Every request carries the curator's full record for the artifact in front of you (ground truth — admin data always wins), summaries of the *other* artifacts (so "how is this different from the bronze one?" gets a real answer), your tour memory (stops seen, in order), and your interests. For related gaps the model may reason carefully; for venue facts it must admit what it does not know rather than invent.
+- **Instruction following as product behaviour.** One model plays three roles by intent — arrival **greeting** (25–40 words), **proactive storyteller** (a 2–4 sentence hook when you linger), and **expert** for questions — with the persona pinned server-side (ask "who are you?" and you meet Mira, never a model name), spoken-length discipline, and a hard language switch: the same pipeline answers in English or in natural Devanagari हिंदी.
+- **Deliberate latency tuning.** Reasoning effort is set low and temperature 0.7 — chosen for spoken conversation, not essays. Multi-turn history (last 6 turns) rides along, so "and who painted *that* one?" just works.
+- **Honesty boundary.** If Muse is ever unreachable, a small rule-based fallback answers from the record — clearly a safety net, never presented as the AI. (Muse Voice Transcribe is enabled on our key but intentionally unused: on-device speech recognition is faster and works offline in a gallery basement.)
+
+**At build time, Meta AI wrote the system with us.** Mira was designed and implemented end-to-end — Kotlin app, FastAPI backend, admin portal, tests, deployment, even the architecture diagram — in pair with **Muse Code**, Meta's AI coding assistant, across a 16-hour sprint. Meta AI is not a feature inside this product; it is both the runtime and the way the product was made.
 
 ### Technical Depth & Execution (20%)
 
