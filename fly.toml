@@ -1,4 +1,4 @@
-app = "mira-guide-api"
+app = "mira-ai-museum-guide"
 primary_region = "bom"
 
 [build]
