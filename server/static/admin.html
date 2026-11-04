@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mira Admin — Artifacts</title>
+<style>
+  * { box-sizing: border-box; }
+  body { font-family: Georgia, 'Times New Roman', serif; margin: 0; background: #f4f1ea; color: #22201c; }
+  header { background: #2b2118; color: #f4f1ea; padding: 14px 20px; }
+  header h1 { font-size: 19px; margin: 0; font-weight: normal; letter-spacing: .02em; }
+  header p { margin: 3px 0 0; font-size: 13px; color: #c9bda8; font-family: system-ui, sans-serif; }
+  .wrap { max-width: 980px; margin: 0 auto; padding: 20px 16px 48px; }
+  label { display: block; font-family: system-ui, sans-serif; font-size: 12px; text-transform: uppercase; letter-spacing: .06em; color: #6b6252; margin: 14px 0 5px; }
+  input, textarea, select { width: 100%; padding: 9px 10px; border: 1px solid #c9c0ab; background: #fff; font-size: 15px; border-radius: 3px; font-family: Georgia, serif; }
+  textarea { min-height: 74px; resize: vertical; }
+  .row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .card { background: #fff; border: 1px solid #ddd4c0; padding: 18px; margin-top: 16px; border-radius: 4px; }
+  .item { background: #fff; border: 1px solid #ddd4c0; padding: 12px 14px; margin-top: 10px; display: flex; justify-content: space-between; align-items: center; gap: 10px; border-radius: 4px; }
+  .item button, .btn { background: #2b2118; color: #f4f1ea; border: 0; padding: 9px 16px; font-size: 14px; cursor: pointer; border-radius: 3px; font-family: system-ui, sans-serif; }
+  .btn.secondary { background: #e8e1cf; color: #2b2118; }
+  .muted { color: #7a7260; font-family: system-ui, sans-serif; font-size: 13px; }
+  .badge { font-family: system-ui, sans-serif; font-size: 11px; border: 1px solid #a89a7d; padding: 2px 8px; border-radius: 20px; color: #6b6252; }
+  #msg { font-family: system-ui, sans-serif; font-size: 14px; margin-top: 12px; }
+</style>
+</head>
+<body>
+<header><h1>Mira Admin</h1><p>Artifact content — visitors hear what you write here.</p></header>
+<div class="wrap">
+  <div class="card" id="loginCard">
+    <label for="pw">Admin password</label>
+    <input id="pw" type="password" placeholder="Password">
+    <p><button class="btn" id="loginBtn">Log in</button></p>
+    <div id="loginMsg" class="muted"></div>
+  </div>
+
+  <div id="app" hidden>
+    <div class="card">
+      <strong>Artifacts</strong> <span class="muted">— pick one to edit. Changes show in the app within a minute.</span>
+      <div id="list"></div>
+      <p><button class="btn secondary" id="newBtn">+ New artifact</button> <span id="msg"></span></p>
+    </div>
+    <div class="card">
+      <strong>Visitor analytics</strong> <span class="muted">— what visitors ask, and how long they stay at each artifact.</span>
+      <p><button class="btn secondary" id="analyticsBtn">Refresh analytics</button></p>
+      <div id="analytics" class="muted">No data loaded yet.</div>
+    </div>
+    <div class="card" id="editor">
+      <label>Artifact ID</label><input id="f_id">
+      <label>Title</label><input id="f_title">
+      <label>Spoken intro (said on arrival)</label><textarea id="f_short_intro"></textarea>
+      <label>Description</label><textarea id="f_description"></textarea>
+      <label>History (grounds Mira's answers)</label><textarea id="f_history" style="min-height:130px"></textarea>
+      <div class="row">
+        <div><label>Maker</label><input id="f_maker"></div>
+        <div><label>Era</label><input id="f_era"></div>
+      </div>
+      <div class="row">
+        <div><label>Materials</label><input id="f_materials"></div>
+        <div><label>Gallery ID</label><input id="f_gallery_id"></div>
+      </div>
+      <div class="row">
+        <div><label>Beacon major</label><input id="f_major" type="number"></div>
+        <div><label>Beacon minor</label><input id="f_minor" type="number"></div>
+      </div>
+      <label>nRF Connect string (Manufacturer Data, company 0x004C)</label>
+      <input id="f_beacon_hex" readonly>
+      <label>Fun facts (one per line)</label><textarea id="f_fun_facts"></textarea>
+      <label>FAQs (format: Question | Answer, one per line)</label><textarea id="f_faq"></textarea>
+      <label>Status</label>
+      <select id="f_status"><option value="published">published</option><option value="draft">draft</option></select>
+      <input id="f_venue_id" type="hidden" value="venue_demo_museum">
+      <input id="f_language" type="hidden" value="en">
+      <p>
+        <button class="btn" id="saveBtn">Save artifact</button>
+        <button class="btn secondary" id="cancelBtn">Cancel</button>
+        <span id="saveMsg" class="muted"></span>
+      </p>
+    </div>
+  </div>
+</div>
+<script>
+(function () {
+  var token = ""; var current = null; var artsById = {};
+  function $(id) { return document.getElementById(id); }
+  function api(path, opts) {
+    opts = opts || {};
+    opts.headers = Object.assign({ "Content-Type": "application/json", "Authorization": "Bearer " + token }, opts.headers || {});
+    return fetch(path, opts).then(function (r) {
+      if (!r.ok) throw new Error("Request failed: " + r.status);
+      return r.json();
+    });
+  }
+  function lines(id) { return $(id).value.split("\n").map(function (s) { return s.trim(); }).filter(Boolean); }
+  var VENUE_UUID_HEX = "B9407F30F5F8466EAFF925556B57FE6D";
+  function hex4(n) { return ("0000" + (Number(n) || 0).toString(16).toUpperCase()).slice(-4); }
+  function updateBeaconHex() {
+    $("f_beacon_hex").value = "0215" + VENUE_UUID_HEX + hex4($("f_major").value) + hex4($("f_minor").value) + "C5";
+  }
+  function fill(art) {
+    current = art;
+    $("f_id").value = art.id || "";
+    $("f_title").value = art.title || "";
+    $("f_short_intro").value = art.short_intro || "";
+    $("f_description").value = art.description || "";
+    $("f_history").value = art.history || "";
+    $("f_maker").value = art.maker || "";
+    $("f_era").value = art.era || "";
+    $("f_materials").value = art.materials || "";
+    $("f_gallery_id").value = art.gallery_id || "";
+    $("f_major").value = (art.beacon || {}).major || "";
+    $("f_minor").value = (art.beacon || {}).minor || "";
+    $("f_fun_facts").value = (art.fun_facts || []).join("\n");
+    $("f_faq").value = (art.faq || []).map(function (f) { return f.q + " | " + f.a; }).join("\n");
+    updateBeaconHex();
+    $("f_status").value = art.status || "draft";
+    $("f_venue_id").value = art.venue_id || "venue_demo_museum";
+    $("msg").textContent = "Editing: " + $("f_id").value;
+  }
+  function load() {
+    return api("/admin/artifacts").then(function (d) {
+      var box = $("list"); box.innerHTML = "";
+      d.artifacts.forEach(function (a) {
+        artsById[a.id] = a.title || a.id;
+        var el = document.createElement("div"); el.className = "item";
+        var left = document.createElement("div");
+        left.innerHTML = "<strong></strong> <span class='muted'></span> <span class='badge'></span>";
+        left.querySelector("strong").textContent = a.title || "(untitled)";
+        left.querySelector(".muted").textContent = a.id;
+        left.querySelector(".badge").textContent = a.status;
+        var btn = document.createElement("button"); btn.textContent = "Edit";
+        btn.onclick = function () { fill(a); $("editor").scrollIntoView(); };
+        el.appendChild(left); el.appendChild(btn);
+        box.appendChild(el);
+      });
+    });
+  }
+  $("loginBtn").onclick = function () {
+    fetch("/admin/login", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ password: $("pw").value }) })
+      .then(function (r) { if (!r.ok) throw new Error("Wrong password"); return r.json(); })
+      .then(function (d) {
+        token = d.token;
+        $("loginCard").hidden = true; $("app").hidden = false;
+        return load();
+      })
+      .catch(function (e) { $("loginMsg").textContent = e.message; });
+  };
+  $("analyticsBtn").onclick = function () {
+    api("/admin/analytics").then(function (d) {
+      var box = $("analytics"); box.innerHTML = "";
+      var ids = Object.keys(d.artifacts);
+      if (!ids.length) { box.textContent = "No visitor interactions yet."; return; }
+      ids.forEach(function (id) {
+        var s = d.artifacts[id];
+        var el = document.createElement("div"); el.className = "item";
+        var left = document.createElement("div");
+        var tops = (s.top_questions || []).map(function (t) { return '"' + t.question + '" x' + t.count; }).join(", ") || "none";
+        left.innerHTML = "<strong></strong><br><span class='muted'></span>";
+        left.querySelector("strong").textContent = artsById[id] || id;
+        left.querySelector(".muted").textContent =
+          s.questions + " questions · " + s.dwell_visits + " visits · avg dwell " + s.dwell_avg_s + "s · top: " + tops;
+        el.appendChild(left);
+        box.appendChild(el);
+      });
+    }).catch(function (e) { $("analytics").textContent = e.message; });
+  };
+  $("f_major").addEventListener("input", updateBeaconHex);
+  $("f_minor").addEventListener("input", updateBeaconHex);
+  $("newBtn").onclick = function () { fill({ id: "", title: "", beacon: {}, fun_facts: [], faq: [], status: "draft" }); };
+  $("cancelBtn").onclick = function () {
+    if (current && current.id) {
+      fill(current);
+      $("saveMsg").textContent = "Edits discarded.";
+    } else {
+      fill({ id: "", title: "", beacon: {}, fun_facts: [], faq: [], status: "draft" });
+      current = null;
+      $("saveMsg").textContent = "Cleared.";
+    }
+    $("editor").scrollIntoView();
+  };
+  $("saveBtn").onclick = function () {
+    var art = {
+      id: $("f_id").value.trim(),
+      venue_id: $("f_venue_id").value,
+      gallery_id: $("f_gallery_id").value.trim(),
+      title: $("f_title").value.trim(),
+      short_intro: $("f_short_intro").value.trim(),
+      description: $("f_description").value.trim(),
+      history: $("f_history").value.trim(),
+      maker: $("f_maker").value.trim(),
+      era: $("f_era").value.trim(),
+      materials: $("f_materials").value.trim(),
+      beacon: { major: Number($("f_major").value || 0), minor: Number($("f_minor").value || 0) },
+      fun_facts: lines("f_fun_facts"),
+      faq: lines("f_faq").map(function (l) { var p = l.split("|"); return { q: (p[0] || "").trim(), a: (p[1] || "").trim() }; }).filter(function (f) { return f.q; }),
+      media_urls: (current && current.media_urls) || [],
+      language: $("f_language").value,
+      status: $("f_status").value
+    };
+    if (!art.id || !art.title) { $("saveMsg").textContent = "ID and title are required."; return; }
+    var exists = current && current.id === art.id;
+    $("saveMsg").textContent = "Saving...";
+    api(exists ? "/admin/artifacts/" + encodeURIComponent(art.id) : "/admin/artifacts", { method: exists ? "PUT" : "POST", body: JSON.stringify(art) })
+      .then(function () { $("saveMsg").textContent = "Saved — visible in the app when you return to it."; return load(); })
+      .catch(function (e) { $("saveMsg").textContent = "Save failed: " + e.message + " (are you logged in?)"; });
+  };
+})();
+</script>
+</body>
+</html>

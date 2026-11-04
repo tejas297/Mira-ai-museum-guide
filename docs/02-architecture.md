@@ -66,11 +66,13 @@ Path B (hotword): Porcupine "Hey Mira" → chime → auto-STT → Muse → TTS �
                                           ↑ live transcript      ↑ text + speech + hook
 ```
 
-- Hotword engine — try in this order:
-  1. **Porcupine via OAuth signup (5-min try):** the email form asks for a company address, but Picovoice supports Google/GitHub/LinkedIn signup with a personal email for non-commercial use. If that works, train "Hey Mira" in console, download `.ppn`, use the Android SDK with free `PORCUPINE_ACCESS_KEY`.
-  2. **Vosk keyword spotting (no-signup fallback, Apache 2.0):** `vosk-android` AAR from Maven + small English model (~40MB, bundled or downloaded on first run). Run continuously in a foreground service with a constrained grammar `["hey mira"]`, ~30MB RAM, fully offline. Accuracy is lower than Porcupine, so demo in a quiet room and keep the mic button as backup.
-  3. Last resort: mic-button-only. A working mic beats a broken hotword.
-- STT: Android `SpeechRecognizer` (free, English, offline pack available). No cloud STT in 16h.
+- Hotword engine — LOCKED: **Vosk keyword spotting** (open-source, Apache 2.0, no signup, no key).
+  - Lib: `vosk-android` AAR from Maven (check latest release in `alphacep/vosk-api` repo).
+  - Model: small English model `vosk-model-small-en-us-0.15` (~40MB) from alphacephei.com/vosk/models — download on first run to app storage, unzip once.
+  - Feed: `AudioRecord` 16kHz mono PCM → `Recognizer(model, 16000.0, '["hey mira"]')` in a foreground service. Watch partial results for "hey mira".
+  - Gotchas: 16kHz mono is mandatory; model load takes seconds (load once at startup); pause the loop while TTS plays (echo guard), resume +300ms after.
+  - Accuracy is lower than Porcupine, so demo in a quiet room and keep the mic button as backup. Porcupine stays a post-hackathon upgrade, not in scope.
+- STT: Android `SpeechRecognizer` (free, English, offline pack available) is primary. `muse-voice-transcribe-1.0` is enabled on the key and stays a stretch upgrade (noisy-hall accuracy, Meta-native pipeline story) — only if voice block finishes early.
 - TTS: Android `TextToSpeech` + Google TTS neural voice (en-IN or en-US). SSML-ish control via prompt-shaped punctuation + `setSpeechRate(0.95)` + utterance pauses. Cache per FAQ answer.
 - Human-like checklist: 30–60s answers, 1 question-hook at end ("Want the scandal behind it?"), contractions, pauses before reveal, no bullet-reading.
 - Barge-in: tap mic OR wake word while speaking → `tts.stop()` → listen again.
@@ -86,7 +88,7 @@ Path B (hotword): Porcupine "Hey Mira" → chime → auto-STT → Muse → TTS �
 
 ### 2.5 Backend + admin portal
 
-- Backend (solo-friendly): Node (Express/Fastify) or Python (FastAPI) + SQLite/Postgres. Endpoints in [data model doc](03-data-model-api.md).
+- Backend — LOCKED: **Python FastAPI** + SQLite (single file, zero setup). Endpoints in [data model doc](03-data-model-api.md). Serves the admin page as static files too — one deploy, one URL.
 - Admin portal: simplest web (Next.js / plain React / even Retool for hackathon). Auth: single password for demo.
 - Content sync: app polls `GET /artifacts?venue=&updated_since=` every 60s + on resume; cache to disk for offline demo.
 

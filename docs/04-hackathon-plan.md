@@ -8,7 +8,7 @@
 | Hours | Block | Deliverable | Done when |
 |---|---|---|---|
 | 0–1 | Seed content | 3 artifacts JSON (title, short_intro, history 150–300w, 3 fun facts, 2 FAQs each) | File `demo/seed_artifacts.json` exists |
-| 1–3 | Backend `/ask` | FastAPI/Express: Muse proxy + prompt + FAQ fallback + `GET /artifacts` | `curl POST /api/ask` returns answer_text |
+| 1–3 | Backend `/ask` | FastAPI: Muse proxy + prompt + FAQ fallback + `GET /artifacts` | `curl POST /api/ask` returns answer_text |
 | 3–4 | Admin ugly-CRUD | List → edit → publish (single password). Deploy server somewhere reachable from phone | Edit fun fact on laptop, phone sees it in 60s |
 | 4–7 | Android shell + mock beacons | Artifact card + `BeaconScanner` interface + Mock (slider + auto-walk + manual picker) + cache | Walk sim switches card <3s |
 | 7–11 | Voice loop (biggest block) | Mic btn → SpeechRecognizer → `/ask` → TTS + subtitles + barge-in; Porcupine hotword service + chime + toggle + echo guard | Both triggers answer 2 Qs in a row, context kept |
@@ -18,8 +18,8 @@
 
 ## 2. Wake-word integration (fastest path)
 
-1. Try Picovoice Console signup via **Google/GitHub button** (not the email form) → train "Hey Mira" → Android `.ppn` + `PORCUPINE_ACCESS_KEY` (30 min if it works).
-2. If signup blocked (company-email wall): switch to **Vosk** — add `vosk-android` dep, bundle small English model, grammar `["hey mira"]` in a foreground service. Test detection in a quiet room first, isolated.
+1. Add `vosk-android` dep → download small English model on first run → grammar `["hey mira"]` in a foreground service fed by 16kHz `AudioRecord`. Test detection in a quiet room first, isolated.
+2. Tune: check partial-result latency, confirm no false fires from TTS echo (pause loop while speaking).
 3. Wire (same for either engine): hotword detect → chime → pause hotword → start SpeechRecognizer → on STT result → `/ask` → TTS → on TTS done → resume hotword (+300ms).
 4. If hotword fails at Hour 9: SKIP, ship mic-only + show hotword as "in progress" — a working mic beats two broken triggers.
 
@@ -72,5 +72,5 @@ No real BLE, no maps/nav, no visitor login, no payments, no multi-venue polish, 
 
 1. ~~Assistant name~~ — LOCKED: Mira ("Hey Mira").
 2. ~~Muse model~~ — LOCKED: `muse-spark-1.3` via Responses API, streaming, reasoning low, 300 tokens.
-3. Picovoice account: can you create it in the next hour (for Porcupine key + `.ppn`)?
-4. Backend pick: FastAPI or Express (whichever you write faster)?
+3. ~~Picovoice account~~ — DROPPED. Vosk locked, no account needed.
+4. ~~Backend pick~~ — LOCKED: FastAPI. (`muse-voice-transcribe-1.0` confirmed enabled on key — stretch only.)

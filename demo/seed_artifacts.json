@@ -1,0 +1,157 @@
+{
+  "venue": {
+    "id": "venue_demo_museum",
+    "name": "Demo Museum",
+    "beacon_uuid": "B9407F30-F5F8-466E-AFF9-25556B57FE6D",
+    "default_language": "en",
+    "persona": "warm storyteller, short sentences, pauses for drama"
+  },
+  "artifacts": [
+    {
+      "id": "art_001",
+      "venue_id": "venue_demo_museum",
+      "gallery_id": "gal_painting",
+      "beacon": { "major": 1, "minor": 12 },
+      "title": "Sita Bhoomi Pravesh",
+      "short_intro": "This is Sita's final moment... the earth itself is opening to take her home.",
+      "description": "An oil painting by Raja Ravi Varma showing Sita calling upon Mother Earth at the end of the Ramayana.",
+      "history": "Raja Ravi Varma (1848-1906) was the pioneer of modern Indian art. He painted the great epics so ordinary families could see their gods and heroes as real people. This scene is the Ramayana's most heartbreaking ending. Sita, asked once again to prove her purity, turns instead to Mother Earth, Bhudevi, who bore her. The ground opens, and Earth takes her daughter back. Ravi Varma's printing press made affordable oleograph versions of such paintings, turning palace art into household art across India.",
+      "maker": "Raja Ravi Varma",
+      "artist": "Raja Ravi Varma",
+      "category": "Painting",
+      "era": "19th-20th century",
+      "origin": "India",
+      "materials": "Oil on canvas",
+      "fun_facts": [
+        "Ravi Varma's press prints sold for a few annas, putting epic art in common homes for the first time.",
+        "He painted gods and heroes as real people, which was radical in the 1890s.",
+        "Bhoomi Pravesh means 'entering the Earth' in Sanskrit."
+      ],
+      "faq": [
+        { "q": "Who painted this?", "a": "Raja Ravi Varma, the pioneer of modern Indian art, in the late 19th century." },
+        { "q": "What is happening in the painting?", "a": "Sita is calling on Mother Earth to take her back, the final scene of the Ramayana." }
+      ],
+      "media_urls": [],
+      "language": "en",
+      "status": "published"
+    },
+    {
+      "id": "art_002",
+      "venue_id": "venue_demo_museum",
+      "gallery_id": "gal_sculpture",
+      "beacon": { "major": 1, "minor": 15 },
+      "title": "Bronze Sculpture",
+      "short_intro": "Run your eyes over the shine. Every bronze like this is one of a kind. The mould had to die to make it.",
+      "description": "A bronze figure from the European and Indian sculpture collection, cast by the lost-wax process.",
+      "history": "Bronze is humanity's first great sculpting alloy, copper strengthened with tin. India perfected it in the Chola bronzes a thousand years ago, and European masters later made it the language of public monuments. Nearly all such figures are born by lost-wax casting: the artist models in wax, coats it in clay, melts the wax out, and pours in molten bronze. The clay mould must be broken to free the figure, so no two casts are ever exactly alike. What you are looking at is unrepeatable.",
+      "maker": "European and Indian sculpture collection",
+      "collection": "European and Indian sculpture",
+      "category": "Sculpture",
+      "era": "Cast bronze tradition, Chola to modern",
+      "origin": "European/Indian art collection",
+      "materials": "Bronze (copper-tin alloy)",
+      "fun_facts": [
+        "The lost-wax mould is destroyed for every single sculpture. Each bronze is unique.",
+        "Bronze darkens with age, and collectors prize that patina rather than polishing it away.",
+        "India's Chola bronzes of dancing Shiva are among the most famous bronzes ever cast."
+      ],
+      "faq": [
+        { "q": "What is it made of?", "a": "Bronze, an alloy of copper and tin, cast by the lost-wax process." },
+        { "q": "Why is it dark?", "a": "That dark surface is patina. Bronze darkens naturally with age, and it is prized, not polished off." }
+      ],
+      "media_urls": [],
+      "language": "en",
+      "status": "published"
+    },
+    {
+      "id": "art_003",
+      "venue_id": "venue_demo_museum",
+      "gallery_id": "gal_oriental",
+      "beacon": { "major": 2, "minor": 21 },
+      "title": "Chinese Porcelain Artifact",
+      "short_intro": "Hold it to the light and it glows. Europe spent centuries trying to steal this secret.",
+      "description": "A Chinese porcelain piece from the Oriental Gallery, thin, white and translucent, prized for centuries along the trade routes.",
+      "history": "Porcelain was China's gift and China's mystery. Made from kaolin clay fired at extreme heat, it emerges white, hard and faintly translucent, ringing like a bell when tapped. The city of Jingdezhen supplied imperial courts for over a thousand years, and its wares travelled the Silk Road and sea routes into palaces from Persia to Europe. European potters chased the formula for centuries and failed; in English, the ware and the country still share one word: china.",
+      "maker": "Oriental Gallery collection",
+      "collection": "Oriental Gallery",
+      "category": "Ceramics",
+      "era": "Imperial Chinese porcelain tradition",
+      "origin": "China",
+      "materials": "Porcelain (kaolin clay, high-fired)",
+      "fun_facts": [
+        "In English the material and the country share a word: china.",
+        "Jingdezhen made imperial porcelain for over 1,000 years.",
+        "Real porcelain is translucent. Light passes faintly through the rim."
+      ],
+      "faq": [
+        { "q": "Where was it made?", "a": "In China, most likely Jingdezhen, the porcelain capital for over a thousand years." },
+        { "q": "How can I tell it is real porcelain?", "a": "Hold it to the light. True porcelain is faintly translucent at the rim, and it rings when tapped gently." }
+      ],
+      "media_urls": [],
+      "language": "en",
+      "status": "published"
+    },
+    {
+      "id": "art_004",
+      "venue_id": "venue_demo_museum",
+      "gallery_id": "gal_painting",
+      "beacon": { "major": 1, "minor": 18 },
+      "title": "Shakuntala Looking Back",
+      "short_intro": "She is pretending to pull a thorn from her foot... but really, she is stealing one last look at the king.",
+      "description": "Shakuntala Looking Back (also called Shakuntala Patra-Lekhan), 1898, by Raja Ravi Varma. Shakuntala pretends to remove a thorn from her foot while secretly glancing back at King Dushyanta.",
+      "history": "Shakuntala is a central figure of the Mahabharata and of Kalidasa's Sanskrit play Abhijnanashakuntalam. Daughter of the sage Vishwamitra and the celestial nymph Menaka, she grows up in the forest hermitage of sage Kanva. She falls in love with King Dushyanta, but a curse causes the king to forget her, and the lovers are separated. Ravi Varma freezes the most delicate moment of the story: walking away with her companions, Shakuntala pretends a thorn has pierced her foot, only so she can turn and look at Dushyanta once more. Her backward glance carries romantic longing and hesitation without a single word. Painted in Kilimanoor, Kerala, in 1898, the work is a landmark of Ravi Varma's project: Indian epic literature told through European academic realism, with natural anatomy, detailed fabrics and jewellery, and soft natural light. The original is held by the Sree Chitra Art Gallery, Thiruvananthapuram.",
+      "maker": "Raja Ravi Varma",
+      "artist": "Raja Ravi Varma",
+      "category": "Mythological painting",
+      "era": "1898",
+      "origin": "India",
+      "collection": "Sree Chitra Art Gallery, Thiruvananthapuram",
+      "materials": "Oil on canvas",
+      "dimensions": "181 x 110 cm (catalogued version)",
+      "fun_facts": [
+        "The thorn is a pretense. Shakuntala invents it just to look back at Dushyanta one more time.",
+        "Her whole love story is told in one backward glance, without a single word.",
+        "It was painted at Kilimanoor, Kerala, in 1898.",
+        "The original lives at the Sree Chitra Art Gallery in Thiruvananthapuram."
+      ],
+      "faq": [
+        { "q": "Why is she looking back?", "a": "She is pretending to remove a thorn from her foot so she can glance back at King Dushyanta, whom she loves." },
+        { "q": "Where is the original painting?", "a": "At the Sree Chitra Art Gallery, Thiruvananthapuram, Kerala." }
+      ],
+      "media_urls": [],
+      "language": "en",
+      "status": "published"
+    },
+    {
+      "id": "art_005",
+      "venue_id": "venue_demo_museum",
+      "gallery_id": "gal_painting",
+      "beacon": { "major": 1, "minor": 19 },
+      "title": "Damayanti Talking to a Swan",
+      "short_intro": "A princess is falling in love with a man she has never met... and a swan is carrying the messages.",
+      "description": "Damayanti Talking to a Swan (Damayanti and the Hamsa), 1899, by Raja Ravi Varma, from the Nala-Damayanti episode of the Mahabharata (Vana Parva).",
+      "history": "Damayanti, princess of Vidarbha and daughter of King Bhima, hears of the noble King Nala of Nishadha from a remarkable visitor: a divine swan, a Hamsa, who sings Nala's virtues to her. Fascinated by a man she has never seen, Damayanti confides her feelings to the swan, who carries them to Nala. Through the swan's messages the two fall in love before ever meeting. Ravi Varma, who painted several episodes of the Nala-Damayanti story, chooses this quiet, magical instant: the princess leaning toward the bird, curiosity and first love on her face. The swan is far more than decoration; it symbolises communication and love growing across distance, through words and imagination alone. Painted in 1899 in oil, with rich royal garments and naturalistic expression, the original is held by the Sree Chitra Art Gallery, Thiruvananthapuram.",
+      "maker": "Raja Ravi Varma",
+      "artist": "Raja Ravi Varma",
+      "category": "Mythological painting",
+      "era": "1899",
+      "origin": "India",
+      "collection": "Sree Chitra Art Gallery, Thiruvananthapuram",
+      "materials": "Oil on canvas",
+      "dimensions": "150 x 83 cm",
+      "fun_facts": [
+        "Damayanti and Nala fell in love through messages before they ever met. The swan was their messenger.",
+        "The swan symbolises love and communication across distance.",
+        "Ravi Varma painted a whole series of Nala-Damayanti episodes; this is the most loved.",
+        "The original is at the Sree Chitra Art Gallery, Thiruvananthapuram."
+      ],
+      "faq": [
+        { "q": "Who is the swan?", "a": "A divine Hamsa, a messenger who tells Damayanti about King Nala and carries her feelings back to him." },
+        { "q": "Where is the original painting?", "a": "At the Sree Chitra Art Gallery, Thiruvananthapuram, Kerala." }
+      ],
+      "media_urls": [],
+      "language": "en",
+      "status": "published"
+    }
+  ]
+}

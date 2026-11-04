@@ -76,10 +76,10 @@ Assumption: visitor has smartphone + headphones. Venue has BLE beacons (simulate
 
 ### FR-3: Answers
 
-- FR-3.1 Every answer uses injected context: `artifact_id, title, summary, admin facts`.
-- FR-3.2 If question is unrelated to artifact/venue, assistant says so and offers to help with the artifact.
-- FR-3.3 If admin content lacks the answer, Muse may use general knowledge but must prefix: "Beyond the gallery notes...".
-- FR-3.4 Answers default to 30–60s spoken length; "tell me more" expands.
+- FR-3.1 Every answer uses injected context: current artifact, conversation history, visited stops, visitor interests, and summaries of other gallery artifacts.
+- FR-3.2 Muse is the normal brain. It may answer beyond the admin record, compare artifacts, explain for different ages, recommend, and handle reasonable small talk. Stored FAQs are only an offline/emergency fallback, never the normal script.
+- FR-3.3 If a specific detail is absent, Muse may use general knowledge when reasonably confident and should qualify naturally when uncertain. It must not invent venue-specific timings, prices, locations, or policies that were not supplied.
+- FR-3.4 Answer depth follows the visitor: brief by default for voice, expanded when asked "in detail", simplified when asked for a child.
 
 ### FR-4: Admin portal
 

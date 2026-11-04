@@ -1,0 +1,7 @@
+.venv/
+server/mira.db
+server/.env
+server/__pycache__/
+__pycache__/
+app/build/
+app/.gradle/

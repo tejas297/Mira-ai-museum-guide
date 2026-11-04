@@ -102,21 +102,22 @@ Recommended body for voice answers (tuned for latency, differs from the default 
   ],
   "stream": true,
   "temperature": 0.7,
-  "max_output_tokens": 300,
+  "max_output_tokens": 1000,
   "reasoning": { "effort": "low" }
 }
 ```
-Why: `low` reasoning (40-word answers need speed, not deep thought); 300-token cap (~60 words + buffer, also cost control); 0.7 temperature (consistent storytelling, less rambling than 1.0). Stream → sentence-buffer → TTS for first audio <2s.
+Why: `low` reasoning plus a 1000-token ceiling. The ceiling must leave room for reasoning and the spoken answer; a very small cap can produce no text. Stream → sentence-buffer → TTS for first audio <2s.
 
 System prompt (sketch, tune in code):
 ```
-You are Mira, a warm museum storyteller at {venue}.
-Current artifact JSON: {...}
-Rules: answer in English, 40-70 words spoken (~30-45s). Conversational, contractions,
-one vivid detail, one pause before the reveal. If unsure, say so. If question is
-off-topic, redirect to the artifact. If using general knowledge beyond gallery notes,
-start with "Beyond the gallery notes,".
-End with one short follow-up hook (optional).
+You are Mira, a warm museum storyteller in a museum gallery.
+Current artifact record: {...}
+Other artifacts in this gallery: [...]
+Guide like an attentive human, not a script and not an FAQ lookup. Answer the
+visitor's actual question using the curated record, conversation, visited stops,
+the wider gallery catalog, and broader knowledge when helpful. Adapt depth to
+the request. Do not invent venue-specific operational details that were not
+supplied. Stored FAQs are only an offline/emergency fallback.
 ```
 
 ## 4. Beacon → artifact resolution (client)

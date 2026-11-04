@@ -23,6 +23,27 @@ Simulated BLE beacons resolve the nearest artifact. Both triggers work: mic butt
 - Muse key lives only on backend, never in the app.
 - Demo language: **English only**.
 
+## Run the backend (verified)
+
+```bash
+source .venv/bin/activate
+cp server/.env.example server/.env   # put MODEL_API_KEY + ADMIN_PASSWORD in server/.env
+cd server && python -m uvicorn main:app --host 0.0.0.0 --port 8000
+```
+
+Then open `http://localhost:8000/admin` (log in, edit artifacts) and
+`http://localhost:8000/health`. Muse is the normal answer engine; without a key, `/ask` uses a limited curated fallback —
+the demo-proof fallback. First run seeds 3 demo artifacts (Ravi Varma painting, bronze sculpture, Chinese porcelain) into `server/mira.db`.
+
+## Layout
+
+```
+/server   FastAPI backend + admin page (main.py, static/admin.html)
+/demo     seed_artifacts.json
+/docs     PRD, architecture, data model, hackathon plan
+/app      Android app (Kotlin) — built, APK at app/build/outputs/apk/debug/app-debug.apk
+```
+
 ## Why native Android over React Native for THIS project
 
 Single phone demo, 16 hours, wake word + BLE + low-latency audio. Native wins: first-class `BluetoothLeScanner`, `SpeechRecognizer` + `TextToSpeech` built in, Porcupine wake-word Android SDK with sample code, no JS-bridge audio debugging, one APK to install. RN only if you must demo on an iPhone — you don't.
