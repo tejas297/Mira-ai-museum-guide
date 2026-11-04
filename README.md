@@ -26,7 +26,25 @@ The blue path is the product: **voice in → on-device wake word → transcript 
 
 ## The problem
 
-Museums speak in wall labels. Human guides are scarce, expensive, and speak one language at a time. So the visitor who benefits most from a guide — a blind visitor, an elderly visitor, a child, a Hindi speaker in an English gallery — is exactly who the current system fails. Meanwhile curators have no idea what visitors actually wonder about in front of each painting.
+A museum's default language is the **wall label** — small text that assumes you can see it, read its language, and want to stand still reading. Every existing fix trades one problem for another:
+
+- **Human guides** are wonderful — and scarce. They run on schedules, cost a salary per language, vary in quality, and cannot be cloned for a school group of sixty or a single Tuesday visitor.
+- **Pre-recorded audio devices** (the rented wand with a number pad) fixed availability, but froze the experience: one fixed script, in a fixed order, at a fixed pace. You cannot ask it anything. It does not know where you are standing — you hunt for numbers. It is the same for a child, an art historian, and a first-time visitor. And the museum must buy, charge, clean, repair, and replace a fleet of hardware that visitors queue to collect and return.
+
+So the visitor who benefits most from guidance — a blind visitor, an elderly visitor, a child, a Hindi speaker in an English gallery — is still the one the system fails. And curators still have no idea what visitors actually wonder about in front of each painting.
+
+| | Wall label | Human guide | Pre-recorded device | **Mira** |
+|---|---|---|---|---|
+| Speaks to you | No | Yes | Yes, fixed script | Yes, live conversation |
+| You can ask questions | No | Yes | **No** | Yes, unlimited follow-ups |
+| Knows where you are | No | Yes | No — you type numbers | Yes — BLE finds the artifact |
+| Adapts to you (age, interests, pace) | No | Yes | No | Yes — interests + tour memory |
+| Languages | Usually one | One per guide | A few, pre-recorded | English + हिंदी, switchable live |
+| Always available | Yes | No — scheduled, scarce | Yes, if fleet is charged | Yes — the visitor's own phone |
+| Cost to the museum | Print | Salary per guide/language | Fleet purchase + maintenance | Software; curators edit content themselves |
+| Learns what visitors ask | No | No | No | Yes — per-artifact analytics |
+
+Mira is deliberately the union of the two paid options: the **conversation of a human guide** with the **availability of the audio device** — minus the fleet, the schedule, and the script. It runs on hardware the visitor already owns, speaks the visitor's language, and reports back what each painting makes people ask.
 
 ## What Mira does
 
