@@ -9,7 +9,7 @@ Mira is a voice-first AI museum guide. BLE beacons tell the app which artifact y
 ## Try it in 2 minutes
 
 - **Download the app:** [Mira v1.0 APK — Google Drive](https://drive.google.com/file/d/1A4yj5GN1hEyEOCzmC36WrrS1CaFun3x3/view?usp=drivesdk) · [GitHub mirror](https://github.com/tejas297/Mira-ai-museum-guide/raw/main/app-release.apk) (Android, 40 MB) — allow "install unknown apps", install, grant the microphone permission.
-- **Demo video:** coming soon <!-- TODO: paste the demo video URL here -->
+- **Demo video:** [Demo Video link](https://drive.google.com/file/d/1MIrU6hwJXf9l_l6kVHjClO3AFp4AIRhx/view?usp=drivesdk)
 - **Live backend:** [health check](https://mira-ai-museum-guide.fly.dev/health) · **Curator admin:** [/admin](https://mira-ai-museum-guide.fly.dev/admin) (login required — it is shown in the demo video)
 
 **What to try in the app**
