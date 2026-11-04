@@ -11,35 +11,65 @@
       "id": "art_001",
       "venue_id": "venue_demo_museum",
       "gallery_id": "gal_painting",
-      "beacon": { "major": 1, "minor": 12 },
+      "beacon": {
+        "major": 1,
+        "minor": 12
+      },
       "title": "Sita Bhoomi Pravesh",
-      "short_intro": "This is Sita's final moment... the earth itself is opening to take her home.",
-      "description": "An oil painting by Raja Ravi Varma showing Sita calling upon Mother Earth at the end of the Ramayana.",
-      "history": "Raja Ravi Varma (1848-1906) was the pioneer of modern Indian art. He painted the great epics so ordinary families could see their gods and heroes as real people. This scene is the Ramayana's most heartbreaking ending. Sita, asked once again to prove her purity, turns instead to Mother Earth, Bhudevi, who bore her. The ground opens, and Earth takes her daughter back. Ravi Varma's printing press made affordable oleograph versions of such paintings, turning palace art into household art across India.",
+      "short_intro": "This is Sita's final moment, painted in 1880... the earth itself is opening to take her home.",
+      "description": "An oil painting by Raja Ravi Varma showing Sita calling upon Mother Earth (Bhoomi Devi) at the end of the Ramayana. Unlike a typical religious painting celebrating a deity, it captures grief, rejection, dignity and motherhood: Sita is not simply taken away, she makes a final decision about her honour. Documented in the Maharaja Fateh Singh Museum collection, Vadodara.",
+      "history": "Painted in 1880, this was Raja Ravi Varma's first painting based on the Ramayana, and it changed his life. Maharaja Vishakham Thirunal of Travancore suggested the subject, but after completing it Ravi Varma fell out with the Travancore court. Sir T. Madhava Rao acquired the canvas and presented it to Maharaja Sayajirao Gaekwad III of Baroda; this gift began Ravi Varma's celebrated relationship with the Gaekwad royal family and led to further royal patronage. The reverse of the canvas reportedly carries the inscription 'Ravi Varmah Coil Tampuran, 12 November 1880.' The scene shows the final chapter of the Ramayana: Sita, asked once again to prove her purity, calls on her mother Bhoomi Devi, who rises to embrace her. At the centre, Sita and Bhoomi Devi; around them Rama in shock and helplessness, her twin sons Lava and Kusha with contrasting reactions, and sages witnessing. Dark sombre colours, red flags adding dramatic tension, and a recurring pink rose detail mark Ravi Varma's academic realism. The Gaekwad family account mentions the family holds two versions of this subject, so not every catalog listing is the same physical canvas. Interpretation after Radhikaraje Gaekwad.",
       "maker": "Raja Ravi Varma",
       "artist": "Raja Ravi Varma",
       "category": "Painting",
-      "era": "19th-20th century",
+      "era": "1880 · 19th century",
       "origin": "India",
       "materials": "Oil on canvas",
       "fun_facts": [
-        "Ravi Varma's press prints sold for a few annas, putting epic art in common homes for the first time.",
-        "He painted gods and heroes as real people, which was radical in the 1890s.",
-        "Bhoomi Pravesh means 'entering the Earth' in Sanskrit."
+        "This was Ravi Varma's very first painting from the Ramayana, painted in 1880.",
+        "The back of the canvas reportedly reads: 'Ravi Varmah Coil Tampuran, 12 November 1880.'",
+        "This painting won Ravi Varma the patronage of Maharaja Sayajirao Gaekwad III of Baroda, a turning point in his career.",
+        "Look at the contrast: Rama helpless, Sita determined. She is choosing dignity, not being taken.",
+        "The Gaekwad collection is said to hold two versions of Sita Bhoomi Pravesh.",
+        "A small pink rose, repeated on the main figures, is Ravi Varma's quiet botanical signature here."
       ],
       "faq": [
-        { "q": "Who painted this?", "a": "Raja Ravi Varma, the pioneer of modern Indian art, in the late 19th century." },
-        { "q": "What is happening in the painting?", "a": "Sita is calling on Mother Earth to take her back, the final scene of the Ramayana." }
+        {
+          "q": "Who painted this?",
+          "a": "Raja Ravi Varma, in 1880. It was his first painting based on the Ramayana."
+        },
+        {
+          "q": "What is happening in the painting?",
+          "a": "Sita is calling on Mother Earth, Bhoomi Devi, to take her back, the final scene of the Ramayana. Rama, Lava, Kusha and the sages watch."
+        },
+        {
+          "q": "Where is this painting?",
+          "a": "It is documented in the Maharaja Fateh Singh Museum collection in Vadodara, Gujarat."
+        },
+        {
+          "q": "What is the Vadodara connection?",
+          "a": "Sir T. Madhava Rao presented this painting to Maharaja Sayajirao Gaekwad III of Baroda, which began Ravi Varma's royal patronage with the Gaekwad family."
+        },
+        {
+          "q": "Who are the people in the painting?",
+          "a": "Sita at the centre with Bhoomi Devi embracing her, Rama in shock, her twin sons Lava and Kusha, and witnessing sages."
+        }
       ],
       "media_urls": [],
       "language": "en",
-      "status": "published"
+      "status": "published",
+      "updated_at": "2026-11-04T20:52:28.304712+00:00",
+      "dimensions": "56 × 40 inches",
+      "collection": "Maharaja Fateh Singh Museum, Vadodara"
     },
     {
       "id": "art_002",
       "venue_id": "venue_demo_museum",
       "gallery_id": "gal_sculpture",
-      "beacon": { "major": 1, "minor": 15 },
+      "beacon": {
+        "major": 1,
+        "minor": 15
+      },
       "title": "Bronze Sculpture",
       "short_intro": "Run your eyes over the shine. Every bronze like this is one of a kind. The mould had to die to make it.",
       "description": "A bronze figure from the European and Indian sculpture collection, cast by the lost-wax process.",
@@ -56,8 +86,14 @@
         "India's Chola bronzes of dancing Shiva are among the most famous bronzes ever cast."
       ],
       "faq": [
-        { "q": "What is it made of?", "a": "Bronze, an alloy of copper and tin, cast by the lost-wax process." },
-        { "q": "Why is it dark?", "a": "That dark surface is patina. Bronze darkens naturally with age, and it is prized, not polished off." }
+        {
+          "q": "What is it made of?",
+          "a": "Bronze, an alloy of copper and tin, cast by the lost-wax process."
+        },
+        {
+          "q": "Why is it dark?",
+          "a": "That dark surface is patina. Bronze darkens naturally with age, and it is prized, not polished off."
+        }
       ],
       "media_urls": [],
       "language": "en",
@@ -67,7 +103,10 @@
       "id": "art_003",
       "venue_id": "venue_demo_museum",
       "gallery_id": "gal_oriental",
-      "beacon": { "major": 2, "minor": 21 },
+      "beacon": {
+        "major": 2,
+        "minor": 21
+      },
       "title": "Chinese Porcelain Artifact",
       "short_intro": "Hold it to the light and it glows. Europe spent centuries trying to steal this secret.",
       "description": "A Chinese porcelain piece from the Oriental Gallery, thin, white and translucent, prized for centuries along the trade routes.",
@@ -84,8 +123,14 @@
         "Real porcelain is translucent. Light passes faintly through the rim."
       ],
       "faq": [
-        { "q": "Where was it made?", "a": "In China, most likely Jingdezhen, the porcelain capital for over a thousand years." },
-        { "q": "How can I tell it is real porcelain?", "a": "Hold it to the light. True porcelain is faintly translucent at the rim, and it rings when tapped gently." }
+        {
+          "q": "Where was it made?",
+          "a": "In China, most likely Jingdezhen, the porcelain capital for over a thousand years."
+        },
+        {
+          "q": "How can I tell it is real porcelain?",
+          "a": "Hold it to the light. True porcelain is faintly translucent at the rim, and it rings when tapped gently."
+        }
       ],
       "media_urls": [],
       "language": "en",
@@ -95,7 +140,10 @@
       "id": "art_004",
       "venue_id": "venue_demo_museum",
       "gallery_id": "gal_painting",
-      "beacon": { "major": 1, "minor": 18 },
+      "beacon": {
+        "major": 1,
+        "minor": 18
+      },
       "title": "Shakuntala Looking Back",
       "short_intro": "She is pretending to pull a thorn from her foot... but really, she is stealing one last look at the king.",
       "description": "Shakuntala Looking Back (also called Shakuntala Patra-Lekhan), 1898, by Raja Ravi Varma. Shakuntala pretends to remove a thorn from her foot while secretly glancing back at King Dushyanta.",
@@ -115,8 +163,14 @@
         "The original lives at the Sree Chitra Art Gallery in Thiruvananthapuram."
       ],
       "faq": [
-        { "q": "Why is she looking back?", "a": "She is pretending to remove a thorn from her foot so she can glance back at King Dushyanta, whom she loves." },
-        { "q": "Where is the original painting?", "a": "At the Sree Chitra Art Gallery, Thiruvananthapuram, Kerala." }
+        {
+          "q": "Why is she looking back?",
+          "a": "She is pretending to remove a thorn from her foot so she can glance back at King Dushyanta, whom she loves."
+        },
+        {
+          "q": "Where is the original painting?",
+          "a": "At the Sree Chitra Art Gallery, Thiruvananthapuram, Kerala."
+        }
       ],
       "media_urls": [],
       "language": "en",
@@ -126,7 +180,10 @@
       "id": "art_005",
       "venue_id": "venue_demo_museum",
       "gallery_id": "gal_painting",
-      "beacon": { "major": 1, "minor": 19 },
+      "beacon": {
+        "major": 1,
+        "minor": 19
+      },
       "title": "Damayanti Talking to a Swan",
       "short_intro": "A princess is falling in love with a man she has never met... and a swan is carrying the messages.",
       "description": "Damayanti Talking to a Swan (Damayanti and the Hamsa), 1899, by Raja Ravi Varma, from the Nala-Damayanti episode of the Mahabharata (Vana Parva).",
@@ -146,8 +203,14 @@
         "The original is at the Sree Chitra Art Gallery, Thiruvananthapuram."
       ],
       "faq": [
-        { "q": "Who is the swan?", "a": "A divine Hamsa, a messenger who tells Damayanti about King Nala and carries her feelings back to him." },
-        { "q": "Where is the original painting?", "a": "At the Sree Chitra Art Gallery, Thiruvananthapuram, Kerala." }
+        {
+          "q": "Who is the swan?",
+          "a": "A divine Hamsa, a messenger who tells Damayanti about King Nala and carries her feelings back to him."
+        },
+        {
+          "q": "Where is the original painting?",
+          "a": "At the Sree Chitra Art Gallery, Thiruvananthapuram, Kerala."
+        }
       ],
       "media_urls": [],
       "language": "en",
